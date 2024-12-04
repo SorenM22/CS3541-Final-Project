@@ -7,6 +7,8 @@ class JobPosting {
   double lowerSalary;
   double upperSalary;
 
+
+
   JobPosting(
       this.company,
       this.companyScore,
@@ -15,4 +17,27 @@ class JobPosting {
       this.date,
       this.lowerSalary,
       this.upperSalary);
+}
+
+class JobTrend {
+  DateTime year;
+  String jobTitle;
+  String jobCategory;
+  double salary;
+  String experienceLevel;
+  String employmentType;
+  String workSetting;
+  String location;
+  String companySize;
+
+  JobTrend(
+      this.year,
+      this.jobTitle,
+      this.jobCategory,
+      this.salary,
+      this.experienceLevel,
+      this.employmentType,
+      this.workSetting,
+      this.location,
+      this.companySize);
 }
