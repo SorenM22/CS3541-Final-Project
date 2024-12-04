@@ -1,3 +1,4 @@
+import 'package:final_ctrl_alt_defeat/Model/authentication_repository.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final auth = Get.put(AuthenticationRepository());
+
   int _selectedPage = 0;
   Widget homeContentWindow = Center(child: Text('Home Page Content'));
 
@@ -34,10 +37,12 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.onSurface,
         title: const Text('Home Page'),
+        leading: IconButton(onPressed: auth.signout, icon: const Icon(Icons.arrow_back), color: Colors.white,),
       ),
       body: homeContentWindow,
       bottomNavigationBar: BottomNavigationBar(
