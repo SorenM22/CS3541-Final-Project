@@ -46,11 +46,8 @@ class _FuturePage extends State<FuturePage> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: getName(),
-        builder: (context, snapshot) {
-          return Text(name);
-        }
+    return Scaffold(
+
     );
   }
 }
