@@ -7,8 +7,6 @@ import 'package:get/get.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
-  final String appLogo = "assets/login_Image/Workout_ClipArt.png";
-
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +29,6 @@ class LoginPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Image(image: AssetImage(appLogo), height: height * 0.2,),
                 const Text("MyFit", style: TextStyle(fontSize: 35),),
                 const Text("please login", style: TextStyle(fontSize: 15),),
 
@@ -86,13 +83,6 @@ class LoginPage extends StatelessWidget {
                     ),
                 ),
                  Text("OR", style: TextStyle(color: Theme.of(context).colorScheme.onPrimary)),
-                SizedBox(
-                  width: double.infinity,
-                  child: OutlinedButton.icon(
-                      icon: Image(image: AssetImage("assets/login_Image/Google_Logo.png"), width: 25.0),
-                      onPressed: (){authControl.googleLogin();},
-                      label: Text("Google sign-in", style: TextStyle(color: Theme.of(context).colorScheme.onPrimary))),
-                ),
 
                 SizedBox(
                   height: 30.0,
