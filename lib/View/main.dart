@@ -1,53 +1,68 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:get/get.dart';
+import '../Model/ThemeController.dart';
+import '../Model/authentication_repository.dart';
+import '../Presenter/profile_avatar_icon_presenter.dart';
+import 'HomePage.dart';
 
-void main() {
-  runApp(const MyApp());
+Future <void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp().then((value) => Get.put(AuthenticationRepository()));
+  final themeController = Get.put(ThemeController());
+  themeController.getTheme();
+  runApp(MyApp());
 }
+
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
 
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: Firebase.initializeApp(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            return MaterialApp(
-              title: 'Flutter Demo',
-              theme: ThemeData(
-                colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-                useMaterial3: true,
-              ),
-              home: const FuturePage(),
-            );
-          }
-          return const MaterialApp();
-        }
-    );
-  }
-}
+    final profileController = Get.put(ProfileController());
+    profileController.fetchProfileData();
 
-class FuturePage extends StatefulWidget {
-  const FuturePage({super.key});
+    final themeController = Get.find<ThemeController>();
 
-  @override
-  State<FuturePage> createState() => _FuturePage();
-}
-
-class _FuturePage extends State<FuturePage> {
-  final databaseReference = FirebaseFirestore.instance.collection('Test');
-  var name = "";
-  Future<void> getName() async {
-    name = databaseReference.doc('test1').id;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-
-    );
+    return Obx(() {
+      // The app will reactively rebuild based on the theme state
+      return GetMaterialApp(
+        title: 'GetFit',
+        theme: ThemeData(
+          colorScheme: const ColorScheme(
+            brightness: Brightness.light,
+            primary: Color(0xFFF9F9F9),
+            onPrimary: Color(0xFF3E10C6),
+            secondary: Color(0xFFF9F9F9),
+            onSecondary: Color(0xFF1A73E8),
+            error: Color(0xFFF9F9F9),
+            onError: Color(0xFFE30E00),
+            surface: Color(0xFFF9F9F9),
+            onSurface: Color(0xFF3E10C6),
+            onPrimaryContainer: Color(0xffD4D2D5),
+          ),
+          useMaterial3: true,
+        ),
+        darkTheme: ThemeData(
+          colorScheme: const ColorScheme(
+              brightness: Brightness.dark,
+              primary: Color(0xFF333333),
+              onPrimary: Color(0xFFFBE073),
+              secondary: Color(0xFF333333),
+              onSecondary: Color(0xFFB8AEAD),
+              error: Color(0xFF333333),
+              onError: Color(0xFFE30E00),
+              surface: Color(0xFF333333),
+              onSurface: Color(0xFFFACE1D),
+              onPrimaryContainer: Color(0xFF606060)
+          ),
+          useMaterial3: true,
+        ),
+        themeMode: themeController.isDarkMode.value ? ThemeMode.dark : ThemeMode.light, // Reactive theme change
+        home: HomePage(),
+      );
+    });
   }
 }
