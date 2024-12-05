@@ -53,7 +53,7 @@ class _CsvComparisonAppState extends State<CsvComparisonApp> {
             border: Border(bottom: BorderSide(color: Colors.grey.shade300)),
           ),
           child: Text(
-            row.join(', '), // Display row data as a comma-separated string
+            row.join(', '),
             style: const TextStyle(fontSize: 16),
           ),
         );
@@ -70,15 +70,17 @@ class _CsvComparisonAppState extends State<CsvComparisonApp> {
         ),
         body: Column(
           children: [
+
             // Top scrollable widget
             Expanded(
-              flex: 1, // Adjustable space ratio for top and bottom
+              flex: 1,
               child: _buildScrollableList(csvDataTop),
             ),
             const Divider(),
+
             // Bottom scrollable widget
             Expanded(
-              flex: 1, // Adjustable space ratio for top and bottom
+              flex: 1,
               child: _buildScrollableList(csvDataBottom),
             ),
           ],
