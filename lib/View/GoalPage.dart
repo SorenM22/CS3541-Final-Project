@@ -14,30 +14,8 @@ class GoalPage extends StatefulWidget{
   }
 }
 
-class GoalState extends State<GoalPage>{
-
-  void _showOptionsForAdd() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Add', style: TextStyle(color: Theme.of(context).colorScheme.onPrimary)),
-          content: Row(
-            children: <Widget>[
-              Expanded(
-                child: TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Text('Cardio', style: TextStyle(color: Theme.of(context).colorScheme.onPrimary)),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
+class GoalState extends State<GoalPage> {
+  final List<String> _goals = []; // Array to store goals
 
   void _showGoalDialog() {
     showDialog(
@@ -59,7 +37,9 @@ class GoalState extends State<GoalPage>{
             TextButton(
               child: Text("Submit", style: TextStyle(color: Theme.of(context).colorScheme.onPrimary)),
               onPressed: () {
-                //goalSubmit(type, goalController.text);
+                setState(() {
+                  _goals.add(goalController.text); // Add goal to the array
+                });
                 goalController.clear();
                 Navigator.of(context).pop();
               },
@@ -70,10 +50,17 @@ class GoalState extends State<GoalPage>{
     );
   }
 
+  void _removeGoal(String goal) {
+    setState(() {
+      _goals.remove(goal); // Remove goal from the array
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar( backgroundColor: Theme.of(context).colorScheme.secondary,
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.secondary,
         title: Text("Goals", style: TextStyle(color: Theme.of(context).colorScheme.onSecondary)),
       ),
       body: Center(
@@ -87,6 +74,17 @@ class GoalState extends State<GoalPage>{
                 color: Theme.of(context).colorScheme.onPrimary,
               ),
             ),
+            Expanded(
+              child: ListView.builder(
+                itemCount: _goals.length,
+                itemBuilder: (context, index) {
+                  return GoalWidget(
+                    name: _goals[index],
+                    onDelete: () => _removeGoal(_goals[index]), // Pass callback for deletion
+                  );
+                },
+              ),
+            ),
             ElevatedButton(
               onPressed: _showGoalDialog,
               child: Text(
@@ -94,6 +92,7 @@ class GoalState extends State<GoalPage>{
                 style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
               ),
             ),
+
           ],
         ),
       ),
@@ -101,55 +100,23 @@ class GoalState extends State<GoalPage>{
   }
 }
 
-
-class GoalWidget extends StatefulWidget {
-  GoalWidget({super.key, required this.name});
+class GoalWidget extends StatelessWidget {
   final String name;
+  final VoidCallback onDelete;
 
-  @override
-  State<GoalWidget> createState() => _GoalWidgetState();
-}
-
-class _GoalWidgetState extends State<GoalWidget> {
-  bool _isDeleted = false;
-
+  GoalWidget({super.key, required this.name, required this.onDelete});
 
   @override
   Widget build(BuildContext context) {
-    if (_isDeleted) {
-      return const SizedBox.shrink(); // Return an empty widget when deleted
-    }
-
-    return Wrap(
-      alignment: WrapAlignment.center,
-      crossAxisAlignment: WrapCrossAlignment.center,
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Row(
-          mainAxisSize: MainAxisSize.min, // Ensure Row takes up only as much space as needed
-          mainAxisAlignment: MainAxisAlignment.center, // Center horizontally
-          children: [
-            Text(widget.name, style: TextStyle(color: Theme.of(context).colorScheme.onPrimary)), // Access 'name' using the 'widget' property
-            IconButton(
-              icon: Icon(
-                Icons.delete,
-                color: Theme.of(context).colorScheme.onSecondary,
-              ),
-              onPressed: () {
-                // Delete the goal from both "Cardio" and "Weight" collections
-                removeGoal("Cardio", widget.name);
-                removeGoal("Weight", widget.name);
-                setState(() {
-                  _isDeleted = true; // Mark widget as deleted
-                });
-              },
-            ),
-          ],
+        Text(name, style: TextStyle(color: Theme.of(context).colorScheme.onPrimary)),
+        IconButton(
+          icon: Icon(Icons.delete, color: Theme.of(context).colorScheme.onSecondary),
+          onPressed: onDelete, // Invoke delete callback
         ),
       ],
     );
-  }
-
-  void removeGoal(String type, String goalName) {
-
   }
 }
