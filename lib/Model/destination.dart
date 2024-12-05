@@ -1,3 +1,4 @@
+import 'package:final_ctrl_alt_defeat/View/GoalPage.dart';
 import 'package:final_ctrl_alt_defeat/View/HomePage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
@@ -17,7 +18,7 @@ enum Destination {
       case Destination.home:
         return const HomePage();
       case Destination.goals:
-        return const Text("Goals page");
+        return GoalPage();
       case Destination.calendar:
         return const Text("Calendar Page");
     }
