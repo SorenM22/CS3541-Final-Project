@@ -82,7 +82,7 @@ class _HomePageState extends State<HomePage> {
         child: ListView(
           children: const [
             ListTile(
-              title: Text("Goals"),
+              title: Text("Goals"), 
             ),
             ListTile(
               title: Text("Calendar"),
