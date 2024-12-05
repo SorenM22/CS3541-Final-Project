@@ -1,6 +1,8 @@
 import 'package:final_ctrl_alt_defeat/Model/authentication_repository.dart';
+import 'package:final_ctrl_alt_defeat/Model/session_data.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../Model/destination.dart';
 
 class BasePage extends StatefulWidget {
   const BasePage({super.key});
@@ -12,11 +14,19 @@ class BasePage extends StatefulWidget {
 class _BasePageState extends State<BasePage> {
   final auth = Get.put(AuthenticationRepository());
 
-  int _selectedPage = 0;
-  Widget homeContentWindow = const Center(child: Text('Home Page Content'));
-
-  void say() {
-    print("say");
+  void navToHome() => Get.toNamed(Destination.home.route, id: 1);
+  void navToGoals() => Get.toNamed(Destination.goals.route, id: 1);
+  void navToCalendar() => Get.toNamed(Destination.calendar.route, id: 1);
+  void changeToListings() {
+    var sessionData = SessionData();
+    sessionData.searchContent = SearchContent.listings;
+  }
+  void changeToTrends() {
+    var sessionData = SessionData();
+    sessionData.searchContent = SearchContent.trends;
+  }
+  void playSound() {
+    print("Playing sounds");
   }
 
   @override
@@ -48,19 +58,23 @@ class _BasePageState extends State<BasePage> {
               color: Colors.white,
             ),
           ]),
-      body: homeContentWindow,
+      body: Navigator(
+        key: Get.nestedKey(1),
+        initialRoute: Destination.home.route,
+        onGenerateRoute: (settings) => Destination.getPage(settings),
+      ),
       bottomNavigationBar: BottomAppBar(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextButton.icon(
-              onPressed: say,
+              onPressed: changeToListings,
               icon: Icon(Icons.list),
               label: const Text("Listings"),
               style: TextButton.styleFrom(backgroundColor: Theme.of(context).colorScheme.onPrimary)
             ),
             TextButton.icon(
-                onPressed: say,
+                onPressed: changeToTrends,
                 icon: Icon(Icons.trending_up),
                 label: const Text("Trends"),
                 style: TextButton.styleFrom(backgroundColor: Theme.of(context).colorScheme.onPrimary)
@@ -70,16 +84,22 @@ class _BasePageState extends State<BasePage> {
       ),
       drawer: Drawer(
         child: ListView(
-          children: const [
+          children: [
+            ListTile(
+              title: Text("Home"),
+              onTap: navToHome,
+            ),
             ListTile(
               title: Text("Goals"),
+              onTap: navToGoals,
             ),
             ListTile(
               title: Text("Calendar"),
-              // onTap: clickedCalendar,
+              onTap: navToCalendar,
             ),
             ListTile(
               title: Text("Sound"),
+              onTap: playSound,
               // onTap: clickedSound,
             )
           ],

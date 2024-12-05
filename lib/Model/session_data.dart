@@ -1,12 +1,15 @@
+enum SearchContent {
+  listings,
+  trends;
+}
+
 class SessionData {
-  static final SessionData _sessionData = SessionData();
+  static SessionData? _instance;
+
+  SessionData._();
+
+  factory SessionData() => _instance ??= SessionData._();
 
   String selectedDatabase = "";
-  String searchContent = "";
-
-  factory SessionData() {
-    return _sessionData;
-  }
-
-  SessionData._internal();
+  SearchContent searchContent = SearchContent.listings;
 }
