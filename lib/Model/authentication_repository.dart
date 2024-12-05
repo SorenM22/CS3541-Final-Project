@@ -3,8 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:final_ctrl_alt_defeat/Model/ThemeController.dart';
 import 'package:final_ctrl_alt_defeat/View/authentication_page.dart';
-import 'package:final_ctrl_alt_defeat/View/HomePage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+
+import '../View/base_page.dart';
 
 class AuthenticationRepository extends GetxController {
   static AuthenticationRepository get instance => Get.find();
@@ -25,7 +26,7 @@ class AuthenticationRepository extends GetxController {
   createScreen(User? user) {
     final themeController = Get.put(ThemeController());
     themeController.getTheme();
-    user == null ? Get.offAll(() => const AuthenticationPage()) : Get.offAll(() =>  HomePage());
+    user == null ? Get.offAll(() => const AuthenticationPage()) : Get.offAll(() =>  BasePage());
 
   }
 

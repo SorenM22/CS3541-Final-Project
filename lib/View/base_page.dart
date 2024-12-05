@@ -2,40 +2,21 @@ import 'package:final_ctrl_alt_defeat/Model/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class BasePage extends StatefulWidget {
+  const BasePage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<BasePage> createState() => _BasePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _BasePageState extends State<BasePage> {
   final auth = Get.put(AuthenticationRepository());
 
   int _selectedPage = 0;
   Widget homeContentWindow = const Center(child: Text('Home Page Content'));
 
-  void _navigating(int index) {
-    setState(() {
-      _selectedPage = index;
-      switch (index) {
-        case 3:
-          homeContentWindow = const Center(child: Text('Calendar Page'));
-          break;
-        case 2:
-          homeContentWindow = const Center(child: Text('Goals Page'));
-          break;
-        case 1:
-          homeContentWindow = const Center(child: Text('Trends Page'));
-          break;
-        case 0:
-          homeContentWindow = const Center(child: Text('Listings Page'));
-          break;
-        default:
-          homeContentWindow = const Center(child: Text('Home Page Content'));
-          break;
-      }
-    });
+  void say() {
+    print("say");
   }
 
   @override
@@ -52,12 +33,12 @@ class _HomePageState extends State<HomePage> {
             );
           }),
           actions: <Widget>[
-            const SizedBox(
+            SizedBox(
               width: 300,
               child: TextField(
                 style: TextStyle(color: Colors.white),
                 decoration: InputDecoration(
-                  suffixIcon: Icon(Icons.search, color: Colors.white),
+                  suffixIcon: Icon(Icons.search, color: Theme.of(context).colorScheme.onPrimary),
                 ),
               ),
             ),
@@ -68,21 +49,30 @@ class _HomePageState extends State<HomePage> {
             ),
           ]),
       body: homeContentWindow,
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.list), label: 'Listings'),
-          BottomNavigationBarItem(icon: Icon(Icons.auto_graph_rounded), label: 'Trends'),
-        ],
-        currentIndex: _selectedPage,
-        selectedItemColor: Theme.of(context).colorScheme.onPrimary,
-        unselectedItemColor: Theme.of(context).colorScheme.onSecondary,
-        onTap: _navigating,
+      bottomNavigationBar: BottomAppBar(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextButton.icon(
+              onPressed: say,
+              icon: Icon(Icons.list),
+              label: const Text("Listings"),
+              style: TextButton.styleFrom(backgroundColor: Theme.of(context).colorScheme.onPrimary)
+            ),
+            TextButton.icon(
+                onPressed: say,
+                icon: Icon(Icons.trending_up),
+                label: const Text("Trends"),
+                style: TextButton.styleFrom(backgroundColor: Theme.of(context).colorScheme.onPrimary)
+            ),
+          ],
+        ),
       ),
       drawer: Drawer(
         child: ListView(
           children: const [
             ListTile(
-              title: Text("Goals"), 
+              title: Text("Goals"),
             ),
             ListTile(
               title: Text("Calendar"),
