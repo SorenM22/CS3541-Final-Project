@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -14,7 +15,6 @@ class GoalPage extends StatefulWidget{
 }
 
 class GoalState extends State<GoalPage>{
-  //final userRepo = Get.put();
 
   void _showOptionsForAdd() {
     showDialog(
@@ -28,16 +28,6 @@ class GoalState extends State<GoalPage>{
                 child: TextButton(
                   onPressed: () {
                     Navigator.of(context).pop();
-                    _showGoalDialog('Weight');
-                  },
-                  child: Text('Weight', style: TextStyle(color: Theme.of(context).colorScheme.onPrimary)),
-                ),
-              ),
-              Expanded(
-                child: TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    _showGoalDialog('Cardio');
                   },
                   child: Text('Cardio', style: TextStyle(color: Theme.of(context).colorScheme.onPrimary)),
                 ),
@@ -49,7 +39,7 @@ class GoalState extends State<GoalPage>{
     );
   }
 
-  void _showGoalDialog(String type) {
+  void _showGoalDialog() {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -57,7 +47,7 @@ class GoalState extends State<GoalPage>{
           title: Text("Enter your goal", style: TextStyle(color: Theme.of(context).colorScheme.onPrimary)),
           content: TextField(
             controller: goalController,
-            decoration: InputDecoration(hintText: "Enter goal for $type"),
+            decoration: InputDecoration(hintText: "Enter your goal"),
           ),
           actions: <Widget>[
             TextButton(
@@ -80,19 +70,34 @@ class GoalState extends State<GoalPage>{
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
-    return Column(
-        children: <Widget>[
-          Center(child: Text("Cardio Goals", style: TextStyle(fontSize: 24, color: Theme.of(context).colorScheme.onPrimary))),
-          Center(child: Text("Weight Goals", style: TextStyle(fontSize: 24, color: Theme.of(context).colorScheme.onPrimary))),
-            ElevatedButton(
-                onPressed: _showOptionsForAdd,
-                child: Text("Add Goal", style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),)
+    return Scaffold(
+      appBar: AppBar( backgroundColor: Theme.of(context).colorScheme.secondary,
+        title: Text("Goals", style: TextStyle(color: Theme.of(context).colorScheme.onSecondary)),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              "Your Goals",
+              style: TextStyle(
+                fontSize: 24,
+                color: Theme.of(context).colorScheme.onPrimary,
+              ),
             ),
-          ]
-      );
+            ElevatedButton(
+              onPressed: _showGoalDialog,
+              child: Text(
+                "Add Goal",
+                style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 

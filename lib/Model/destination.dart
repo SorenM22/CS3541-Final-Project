@@ -4,6 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
+import '../View/GoalPage.dart';
+
 enum Destination {
   home,
   goals,
