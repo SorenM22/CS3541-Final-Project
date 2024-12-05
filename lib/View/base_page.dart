@@ -3,6 +3,8 @@ import 'package:final_ctrl_alt_defeat/Model/session_data.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../Model/destination.dart';
+import 'package:audioplayers/audioplayers.dart';
+
 
 class BasePage extends StatefulWidget {
   const BasePage({super.key});
@@ -25,8 +27,10 @@ class _BasePageState extends State<BasePage> {
     var sessionData = SessionData();
     sessionData.searchContent = SearchContent.trends;
   }
-  void playSound() {
-    print("Playing sounds");
+
+  final AudioPlayer _audioPlayer = AudioPlayer();
+  void playSound() async {
+    await _audioPlayer.play(AssetSource('Assets/Aylex - Meditation.mp3')); // Play local file
   }
 
   @override
