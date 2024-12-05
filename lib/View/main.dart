@@ -1,10 +1,10 @@
+import 'package:final_ctrl_alt_defeat/View/base_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
 import '../Model/ThemeController.dart';
 import '../Model/authentication_repository.dart';
 import '../Presenter/profile_avatar_icon_presenter.dart';
-import 'HomePage.dart';
 
 Future <void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -61,7 +61,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
         ),
         themeMode: themeController.isDarkMode.value ? ThemeMode.dark : ThemeMode.light, // Reactive theme change
-        home: HomePage(),
+        home: BasePage(),
       );
     });
   }
