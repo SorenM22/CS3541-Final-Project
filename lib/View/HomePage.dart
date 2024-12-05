@@ -1,12 +1,9 @@
 import 'package:final_ctrl_alt_defeat/Model/authentication_repository.dart';
-import 'package:flex_color_picker/flex_color_picker.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../Model/GetController.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -16,20 +13,26 @@ class _HomePageState extends State<HomePage> {
   final auth = Get.put(AuthenticationRepository());
 
   int _selectedPage = 0;
-  Widget homeContentWindow = Center(child: Text('Home Page Content'));
+  Widget homeContentWindow = const Center(child: Text('Home Page Content'));
 
-  void _tappedBottomNavBar(int index) {
+  void _navigating(int index) {
     setState(() {
       _selectedPage = index;
       switch (index) {
+        case 3:
+          homeContentWindow = const Center(child: Text('Calendar Page'));
+          break;
         case 2:
-          homeContentWindow = Center(child: Text('Settings Page'));
+          homeContentWindow = const Center(child: Text('Goals Page'));
           break;
         case 1:
-          homeContentWindow = Center(child: Text('History Page'));
+          homeContentWindow = const Center(child: Text('Trends Page'));
+          break;
+        case 0:
+          homeContentWindow = const Center(child: Text('Listings Page'));
           break;
         default:
-          homeContentWindow = Center(child: Text('Home Page Content'));
+          homeContentWindow = const Center(child: Text('Home Page Content'));
           break;
       }
     });
@@ -37,24 +40,60 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.onSurface,
-        title: const Text('Home Page'),
-        leading: IconButton(onPressed: auth.signout, icon: const Icon(Icons.arrow_back), color: Colors.white,),
-      ),
+          backgroundColor: Theme.of(context).colorScheme.onSurface,
+          title: const Text('Home Page'),
+          leading: Builder(builder: (context) {
+            return IconButton(
+              onPressed: Scaffold.of(context).openDrawer,
+              icon: const Icon(Icons.menu),
+              color: Colors.white,
+            );
+          }),
+          actions: <Widget>[
+            const SizedBox(
+              width: 300,
+              child: TextField(
+                style: TextStyle(color: Colors.white),
+                decoration: InputDecoration(
+                  suffixIcon: Icon(Icons.search, color: Colors.white),
+                ),
+              ),
+            ),
+            IconButton(
+              onPressed: auth.signout,
+              icon: const Icon(Icons.person),
+              color: Colors.white,
+            ),
+          ]),
       body: homeContentWindow,
       bottomNavigationBar: BottomNavigationBar(
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.auto_graph_rounded), label: 'History'),
-          BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings'),
+          BottomNavigationBarItem(icon: Icon(Icons.list), label: 'Listings'),
+          BottomNavigationBarItem(icon: Icon(Icons.auto_graph_rounded), label: 'Trends'),
         ],
         currentIndex: _selectedPage,
         selectedItemColor: Theme.of(context).colorScheme.onPrimary,
         unselectedItemColor: Theme.of(context).colorScheme.onSecondary,
-        onTap: _tappedBottomNavBar,
+        onTap: _navigating,
+      ),
+      drawer: Drawer(
+        child: ListView(
+          children: const [
+            ListTile(
+              title: Text("Goals"),
+            ),
+            ListTile(
+              title: Text("Calendar"),
+              // onTap: clickedCalendar,
+            ),
+            ListTile(
+              title: Text("Sound"),
+              // onTap: clickedSound,
+            )
+          ],
+        ),
       ),
     );
   }
