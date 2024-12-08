@@ -19,7 +19,7 @@ class csv_reader {
   }
 
 
-  Future<List<List<dynamic>>> searchEngineerSalarybyFilter(String? companyName, String? location, String? minimumSalary , context) async {
+  Future<List<List<dynamic>>> searchEngineerSalarybyFilter(String? companyName, String? location, String? minimumSalary, context) async {
     List<List<dynamic>> baseCSV = await _retrieveEngineerCsv(context);
     List<List<dynamic>> filteredList = baseCSV.skip(1).toList();
 
@@ -34,6 +34,30 @@ class csv_reader {
     if(minimumSalary != null){
       filteredList= filteredList.where((row) => row[5] == minimumSalary).toList();
     }
+
+    return filteredList;
+  }
+
+  Future<List<dynamic>> searchJobsbyFilter(String? workSetting, String? companyName, String? location, String? minimumSalary, context) async {
+    List<List<dynamic>> baseCSV = await _retrieveJobsCsv(context);
+    List<List<dynamic>> filteredList = baseCSV.skip(1).toList();
+
+    if(workSetting != null){
+      filteredList = filteredList.where((row) => row[7] == workSetting).toList();
+    }
+
+    if(companyName != null){
+      filteredList = filteredList.where((row) => row[3] == companyName).toList();
+    }
+
+    if(location != null){
+      filteredList = filteredList.where((row) => row[8] == location).toList();
+    }
+
+    if(minimumSalary != null){
+      filteredList= filteredList.where((row) => row[3] == minimumSalary).toList();
+    }
+
 
     return filteredList;
   }
