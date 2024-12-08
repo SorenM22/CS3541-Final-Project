@@ -19,7 +19,7 @@ class csv_reader {
   }
 
 
-  Future<List<List<dynamic>>> searchEngineerSalarybyFilter(String? companyName, String? location, String? minimumSalary, context) async {
+  Future<List<List<dynamic>>> searchEngineerSalarybyFilter(String? companyName, String? location, String? jobTitle, context) async {
     List<List<dynamic>> baseCSV = await _retrieveEngineerCsv(context);
     List<List<dynamic>> filteredList = baseCSV.skip(1).toList();
 
@@ -31,37 +31,34 @@ class csv_reader {
       filteredList = filteredList.where((row) => row[3] == location).toList();
     }
 
-    if(minimumSalary != null){
-      filteredList= filteredList.where((row) => row[5] == minimumSalary).toList();
+    if(jobTitle != null){
+      filteredList = filteredList.where((row) => row[2] == jobTitle).toList();
     }
 
     return filteredList;
   }
 
-  Future<List<dynamic>> searchJobsbyFilter(String? workSetting, String? companyName, String? location, String? minimumSalary, context) async {
+  Future<List<dynamic>> searchJobsbyFilter(String workSetting, String? jobCategory, String? location, String? employmentType, context) async {
     List<List<dynamic>> baseCSV = await _retrieveJobsCsv(context);
     List<List<dynamic>> filteredList = baseCSV.skip(1).toList();
 
-    if(workSetting != null){
-      filteredList = filteredList.where((row) => row[7] == workSetting).toList();
-    }
+    //Searching according to a work_setting, required attribute
+    filteredList = filteredList.where((row) => row[7] == workSetting).toList();
 
-    if(companyName != null){
-      filteredList = filteredList.where((row) => row[3] == companyName).toList();
+    if(jobCategory != null){
+      filteredList = filteredList.where((row) => row[2] == jobCategory).toList();
     }
 
     if(location != null){
       filteredList = filteredList.where((row) => row[8] == location).toList();
     }
 
-    if(minimumSalary != null){
-      filteredList= filteredList.where((row) => row[3] == minimumSalary).toList();
+    if(employmentType != null){
+      filteredList = filteredList.where((row)=> row[6] == employmentType).toList();
     }
-
 
     return filteredList;
   }
-
-
+  
 }
 
