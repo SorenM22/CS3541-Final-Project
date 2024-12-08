@@ -38,7 +38,7 @@ class csv_reader {
     return filteredList;
   }
 
-  Future<List<dynamic>> searchJobsbyFilter(String workSetting, String? jobCategory, String? location, String? employmentType, context) async {
+  Future<List<List<dynamic>>> searchJobsbyFilter(String workSetting, String? jobCategory, String? location, String? employmentType, context) async {
     List<List<dynamic>> baseCSV = await _retrieveJobsCsv(context);
     List<List<dynamic>> filteredList = baseCSV.skip(1).toList();
 
