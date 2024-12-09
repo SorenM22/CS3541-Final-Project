@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import '../Model/HomePageController.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -8,9 +10,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final HomePageController controller = Get.put(HomePageController());
 
   @override
   Widget build(BuildContext context) {
-    return const Text("This is home page");
+    return Obx(() => Text(
+      controller.listingsPicked.value ? "This is Listings" : "This is Trends",
+    ));
   }
 }

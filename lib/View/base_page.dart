@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../Model/destination.dart';
 import 'package:audioplayers/audioplayers.dart';
-
+import '../Model/HomePageController.dart';
 
 
 class BasePage extends StatefulWidget {
@@ -19,18 +19,23 @@ class _BasePageState extends State<BasePage> {
   final auth = Get.put(AuthenticationRepository());
   final SearchBarPresenter searchBarPresenter = Get.put(SearchBarPresenter());
   final AudioPlayer _audioPlayer = AudioPlayer();
+  final HomePageController homePageController = Get.put(HomePageController());
   bool isPlaying = false;
 
   void navToHome() => Get.toNamed(Destination.home.route, id: 1);
   void navToGoals() => Get.toNamed(Destination.goals.route, id: 1);
   void navToCalendar() => Get.toNamed(Destination.calendar.route, id: 1);
+
   void changeToListings() {
     var sessionData = SessionData();
     sessionData.searchContent = SearchContent.listings;
+    homePageController.toggleListings(true); // Set to Listings
   }
+
   void changeToTrends() {
     var sessionData = SessionData();
     sessionData.searchContent = SearchContent.trends;
+    homePageController.toggleListings(false); // Set to Trends
   }
 
   void toggleSound() {
