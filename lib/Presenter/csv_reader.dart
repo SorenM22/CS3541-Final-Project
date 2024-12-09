@@ -55,12 +55,13 @@ class csv_reader {
     return filteredList;
   }
 
-  Future<List<List<dynamic>>> searchJobsbyFilter(String workSetting, String? jobCategory, String? location, String? employmentType, context) async {
+  Future<List<List<dynamic>>> searchJobsbyFilter(String? workSetting, String? jobCategory, String? location, String? employmentType, context) async {
     List<List<dynamic>> baseCSV = await _retrieveJobsCsv(context);
     List<List<dynamic>> filteredList = baseCSV.skip(1).toList();
-
-    //Searching according to a work_setting, required attribute
-    filteredList = filteredList.where((row) => row[7] == workSetting).toList();
+    
+    if (workSetting != null) {
+      filteredList = filteredList.where((row) => row[7] == workSetting).toList();
+    }
 
     if(jobCategory != null){
       filteredList = filteredList.where((row) => row[2] == jobCategory).toList();
