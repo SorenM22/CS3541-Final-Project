@@ -1,6 +1,7 @@
 
 import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
+import 'package:statistics/statistics.dart';
 
 class csv_reader {
 
@@ -102,9 +103,44 @@ class csv_reader {
         
         result.add([country, bestSalary]);
       }
+    }
+    return result;
+  }
 
+
+  Future<List<List<dynamic>>> findCompanySizeSalaryPattern(context) async{
+    List<List<dynamic>> baseCSV = await _retrieveJobsCsv(context);
+    List<List<dynamic>> filteredCSV = baseCSV.skip(1).toList();
+
+    List<List<dynamic>> result = [['Company Size', 'Maximum Salary', 'Minimum Salary', 'Median', 'Mean', 'Standard Deviation']];
+
+    Map<String, List<List<dynamic>>> groupedByCompanySize = {};
+
+    //Maps all rows of a company size to a collection of that size
+    for(var row in filteredCSV){
+      String companySize = row[9];
+      if(!groupedByCompanySize.containsKey(companySize)){
+        groupedByCompanySize[companySize] = [];
+      }
+      groupedByCompanySize[companySize]!.add(row);
     }
 
+    //Identify statistical numbers for each company size
+    for (var entry in groupedByCompanySize.entries){
+      String companySize = entry.key;
+      List<List<dynamic>> rows = entry.value;
+      List<double> salaries = [];
+
+      if (rows.isNotEmpty) {
+        for(var row in rows){
+          salaries.add(row[3]);
+        }
+
+        var stats = salaries.statistics;
+
+        result.add([companySize, stats.max, stats.min, stats.median, stats.mean.toString(), stats.standardDeviation.toStringAsPrecision(2)]);
+      }
+    }
     return result;
   }
   
