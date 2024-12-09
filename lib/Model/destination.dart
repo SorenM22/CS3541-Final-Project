@@ -9,7 +9,8 @@ enum Destination {
   home,
   goals,
   calendar,
-  listings,
+  searchListings,
+  compareListings,
   trends;
 
   String get route {
@@ -24,7 +25,9 @@ enum Destination {
         return GoalPage();
       case Destination.calendar:
         return const Text("Calendar Page");
-      case Destination.listings:
+      case Destination.searchListings:
+        return const Text("Search Page");
+      case Destination.compareListings:
         return const CsvComparisonApp();
       case Destination.trends:
         return const Text("Trends");

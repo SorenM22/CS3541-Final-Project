@@ -24,7 +24,8 @@ class _BasePageState extends State<BasePage> {
   void navToHome() => Get.toNamed(Destination.home.route, id: 1);
   void navToGoals() => Get.toNamed(Destination.goals.route, id: 1);
   void navToCalendar() => Get.toNamed(Destination.calendar.route, id: 1);
-  void navToListings() => Get.toNamed(Destination.listings.route, id: 1);
+  void navToSearchListings() => Get.toNamed(Destination.searchListings.route, id: 1);
+  void navToCompareListings() => Get.toNamed(Destination.compareListings.route, id: 1);
   void navToTrends() => Get.toNamed(Destination.trends.route, id: 1);
 
   void toggleSound() {
@@ -115,11 +116,31 @@ class _BasePageState extends State<BasePage> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextButton.icon(
-              onPressed: navToListings,
-              icon: Icon(Icons.list),
-              label: const Text("Listings"),
-              style: TextButton.styleFrom(backgroundColor: Theme.of(context).colorScheme.onPrimary)
+            MenuAnchor(
+              menuChildren: [
+                  MenuItemButton(
+                    onPressed: navToSearchListings,
+                    child: const Text('Search'),
+                  ),
+                MenuItemButton(
+                  onPressed: navToCompareListings,
+                  child: const Text("Compare"),
+                )
+                ],
+              builder: (context, controller, child) {
+                return TextButton.icon(
+                    onPressed: () {
+                      if(controller.isOpen) {
+                        controller.close();
+                      } else {
+                        controller.open();
+                      }
+                    },
+                    icon: Icon(Icons.list),
+                    label: const Text("Listings"),
+                    style: TextButton.styleFrom(backgroundColor: Theme.of(context).colorScheme.onPrimary)
+                );
+              }
             ),
             TextButton.icon(
                 onPressed: navToTrends,
