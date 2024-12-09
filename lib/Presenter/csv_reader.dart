@@ -70,6 +70,43 @@ class csv_reader {
 
     return maxSalary;
   }
+
+  Future<List<List<dynamic>>> findBestJobSalary(String? country, String? jobTitle, context) async{
+    List<List<dynamic>> baseCSV = await _retrieveEngineerCsv(context);
+    List<List<dynamic>> filteredList = baseCSV.skip(1).toList();
+
+    Map<String, List<List<dynamic>>> groupedByCountry = {};
+
+    //Sorts the data from the CSV into groups mapped to the job's country of origin
+    for(var row in filteredList){
+      String country = row[8];
+      if(!groupedByCountry.containsKey(country)){
+        groupedByCountry[country] = [];
+      }
+      groupedByCountry[country]!.add(row);
+    }
+
+    //Instantiate the result set prior to trying to add to it
+    List<List<dynamic>> result = [['Country', 'BestSalary']];
+
+
+    //Identify the best salary of each coutnry and add it to a list of a list so we have a collection of country, best salary pairs
+    for(var entry in groupedByCountry.entries){
+      String country = entry.key;
+      List<List<dynamic>> rows = entry.value;
+
+      List<List<dynamic>> jobTitleFilteredRows = rows.where((row) => row[1] == jobTitle).toList();
+
+      if (jobTitleFilteredRows.isNotEmpty){
+        double bestSalary = jobTitleFilteredRows.map((row) => row[3] as double).reduce((a,b) => a > b ? a : b);
+        
+        result.add([country, bestSalary]);
+      }
+
+    }
+
+    return result;
+  }
   
 }
 
