@@ -24,9 +24,15 @@ class _BasePageState extends State<BasePage> {
   void navToHome() => Get.toNamed(Destination.home.route, id: 1);
   void navToGoals() => Get.toNamed(Destination.goals.route, id: 1);
   void navToCalendar() => Get.toNamed(Destination.calendar.route, id: 1);
-  void navToSearchListings() => Get.toNamed(Destination.searchListings.route, id: 1);
+  void navToSearchListings() {
+    searchBarPresenter.activeSuggestionsType = SuggestionType.jobsTitle;
+    Get.toNamed(Destination.searchListings.route, id: 1);
+  }
   void navToCompareListings() => Get.toNamed(Destination.compareListings.route, id: 1);
-  void navToTrends() => Get.toNamed(Destination.trends.route, id: 1);
+  void navToTrends() {
+    searchBarPresenter.activeSuggestionsType = SuggestionType.trendsCategory;
+    Get.toNamed(Destination.trends.route, id: 1);
+  }
 
   void toggleSound() {
     setState(() {
