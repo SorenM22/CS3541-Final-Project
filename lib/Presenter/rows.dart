@@ -4,10 +4,7 @@ class JobPosting {
   String jobTitle;
   String location;
   Duration date;
-  double lowerSalary;
-  double upperSalary;
-
-
+  double salary;
 
   JobPosting(
       this.company,
@@ -15,8 +12,9 @@ class JobPosting {
       this.jobTitle,
       this.location,
       this.date,
-      this.lowerSalary,
-      this.upperSalary);
+      this.salary);
+
+  static fromRow(List<dynamic> csvRow) => JobPosting(csvRow[0],csvRow[1],csvRow[2],csvRow[3],csvRow[4],csvRow[5]);
 }
 
 class JobTrend {
@@ -40,4 +38,6 @@ class JobTrend {
       this.workSetting,
       this.location,
       this.companySize);
+
+  static fromRow(List<dynamic> csvRow) => JobPosting(csvRow[0],csvRow[1],csvRow[2],csvRow[4],csvRow[5],csvRow[6],csvRow[7]);
 }
