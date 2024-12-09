@@ -1,5 +1,4 @@
 import 'package:final_ctrl_alt_defeat/Model/authentication_repository.dart';
-import 'package:final_ctrl_alt_defeat/Model/session_data.dart';
 import 'package:final_ctrl_alt_defeat/Presenter/search_bar_presenter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -25,18 +24,8 @@ class _BasePageState extends State<BasePage> {
   void navToHome() => Get.toNamed(Destination.home.route, id: 1);
   void navToGoals() => Get.toNamed(Destination.goals.route, id: 1);
   void navToCalendar() => Get.toNamed(Destination.calendar.route, id: 1);
-
-  void changeToListings() {
-    var sessionData = SessionData();
-    sessionData.searchContent = SearchContent.listings;
-    homePageController.toggleListings(true); // Set to Listings
-  }
-
-  void changeToTrends() {
-    var sessionData = SessionData();
-    sessionData.searchContent = SearchContent.trends;
-    homePageController.toggleListings(false); // Set to Trends
-  }
+  void navToListings() => Get.toNamed(Destination.listings.route, id: 1);
+  void navToTrends() => Get.toNamed(Destination.trends.route, id: 1);
 
   void toggleSound() {
     setState(() {
@@ -127,13 +116,13 @@ class _BasePageState extends State<BasePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextButton.icon(
-              onPressed: changeToListings,
+              onPressed: navToListings,
               icon: Icon(Icons.list),
               label: const Text("Listings"),
               style: TextButton.styleFrom(backgroundColor: Theme.of(context).colorScheme.onPrimary)
             ),
             TextButton.icon(
-                onPressed: changeToTrends,
+                onPressed: navToTrends,
                 icon: Icon(Icons.trending_up),
                 label: const Text("Trends"),
                 style: TextButton.styleFrom(backgroundColor: Theme.of(context).colorScheme.onPrimary)

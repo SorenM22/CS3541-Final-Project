@@ -1,15 +1,15 @@
 import 'package:final_ctrl_alt_defeat/View/GoalPage.dart';
-import 'package:final_ctrl_alt_defeat/View/HomePage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-
 import '../View/GoalPage.dart';
 
 enum Destination {
   home,
   goals,
-  calendar;
+  calendar,
+  listings,
+  trends;
 
   String get route {
     return '/${describeEnum(this)}';
@@ -18,11 +18,15 @@ enum Destination {
   Widget get widget {
     switch (this) {
       case Destination.home:
-        return const HomePage();
+        return const Center(child: Text("Start with one of the databases selected"));
       case Destination.goals:
         return GoalPage();
       case Destination.calendar:
         return const Text("Calendar Page");
+      case Destination.listings:
+        return const Text("Listing Page");
+      case Destination.trends:
+        return const Text("Trends");
     }
   }
 
