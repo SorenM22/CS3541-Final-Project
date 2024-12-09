@@ -10,6 +10,8 @@ class SearchBarPresenter extends GetxController {
 
   SuggestionType activeSuggestionsType = SuggestionType.jobsTitle;
 
+  String getLatestSearch() => searchBarController.text;
+
   Future<List<String>> getActiveSuggestions(String filter_text,context) async {
     var csvReader = csv_reader();
     Set<String> searchSet;
