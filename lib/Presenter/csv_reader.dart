@@ -59,6 +59,17 @@ class csv_reader {
 
     return filteredList;
   }
+
+  Future<double> searchEngineerSalarybyCity(String location, context) async {
+    List<List<dynamic>> baseCSV = await _retrieveEngineerCsv(context);
+    List<List<dynamic>> filteredList = baseCSV.skip(1).toList();
+
+    filteredList = filteredList.where((row) => row[3] == location).toList();
+
+    double maxSalary = filteredList.map((row) => row[6] as double).reduce((currentMax, element) => currentMax > element ? currentMax : element);
+
+    return maxSalary;
+  }
   
 }
 
