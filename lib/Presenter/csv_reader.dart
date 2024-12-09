@@ -87,7 +87,7 @@ class csv_reader {
   }
 
   Future<List<List<dynamic>>> findBestJobSalary(String? country, String? jobTitle, context) async{
-    List<List<dynamic>> baseCSV = await _retrieveEngineerCsv(context);
+    List<List<dynamic>> baseCSV = await _retrieveJobsCsv(context);
     List<List<dynamic>> filteredList = baseCSV.skip(1).toList();
 
     Map<String, List<List<dynamic>>> groupedByCountry = {};
