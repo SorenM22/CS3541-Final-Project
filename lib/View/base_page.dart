@@ -1,10 +1,10 @@
 import 'package:final_ctrl_alt_defeat/Model/authentication_repository.dart';
+import 'package:final_ctrl_alt_defeat/Presenter/csv_reader.dart';
 import 'package:final_ctrl_alt_defeat/Presenter/search_bar_presenter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../Model/destination.dart';
 import 'package:audioplayers/audioplayers.dart';
-import '../Model/HomePageController.dart';
 
 
 class BasePage extends StatefulWidget {
@@ -18,8 +18,8 @@ class _BasePageState extends State<BasePage> {
   final auth = Get.put(AuthenticationRepository());
   final SearchBarPresenter searchBarPresenter = Get.put(SearchBarPresenter());
   final AudioPlayer _audioPlayer = AudioPlayer();
-  final HomePageController homePageController = Get.put(HomePageController());
   bool isPlaying = false;
+  final reader = csv_reader();
 
   void navToHome() => Get.toNamed(Destination.home.route, id: 1);
   void navToGoals() => Get.toNamed(Destination.goals.route, id: 1);
@@ -59,7 +59,7 @@ class _BasePageState extends State<BasePage> {
     return Scaffold(
       appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.onSurface,
-          title: const Text('Home Page'),
+          title: const Text('Base Page'),
           leading: Builder(builder: (context) {
             return IconButton(
               onPressed: Scaffold.of(context).openDrawer,
