@@ -58,7 +58,7 @@ class csv_reader {
   Future<List<List<dynamic>>> searchJobsbyFilter(String? workSetting, String? jobCategory, String? location, String? employmentType, context) async {
     List<List<dynamic>> baseCSV = await _retrieveJobsCsv(context);
     List<List<dynamic>> filteredList = baseCSV.skip(1).toList();
-    
+
     if (workSetting != null) {
       filteredList = filteredList.where((row) => row[7] == workSetting).toList();
     }
@@ -78,11 +78,8 @@ class csv_reader {
     return filteredList;
   }
 
-  Future<double> findBestEngineerSalarybyCity(String location, context) async {
-    List<List<dynamic>> baseCSV = await _retrieveEngineerCsv(context);
-    List<List<dynamic>> filteredList = baseCSV.skip(1).toList();
-
-    filteredList = filteredList.where((row) => row[3] == location).toList();
+  Future<double> findBestEngineerSalarybyFilter(String? location, String? companyName, String? jobTitle, context) async {
+    List<List<dynamic>> filteredList = await searchEngineerSalarybyFilter(companyName, location, jobTitle, context);
 
     double maxSalary = filteredList.map((row) => row[6] as double).reduce((currentMax, element) => currentMax > element ? currentMax : element);
 
