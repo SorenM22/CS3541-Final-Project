@@ -38,7 +38,7 @@ class _CsvComparisonAppState extends State<CsvComparisonApp> {
     setState(() {});
   }
 
-  Widget _buildScrollableList(List<List<dynamic>>? data) {
+  Widget buildScrollableList(List<List<dynamic>>? data) {
     if (data == null) {
       return const Center(child: CircularProgressIndicator());
     }
@@ -74,14 +74,14 @@ class _CsvComparisonAppState extends State<CsvComparisonApp> {
             // Top scrollable widget
             Expanded(
               flex: 1,
-              child: _buildScrollableList(csvDataTop),
+              child: buildScrollableList(csvDataTop),
             ),
             const Divider(),
 
             // Bottom scrollable widget
             Expanded(
               flex: 1,
-              child: _buildScrollableList(csvDataBottom),
+              child: buildScrollableList(csvDataBottom),
             ),
           ],
         ),
