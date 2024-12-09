@@ -1,5 +1,6 @@
 import 'package:final_ctrl_alt_defeat/View/GoalPage.dart';
 import 'package:final_ctrl_alt_defeat/View/csv_read_test.dart';
+import 'package:final_ctrl_alt_defeat/View/trends_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
@@ -27,7 +28,7 @@ enum Destination {
       case Destination.listings:
         return const CsvComparisonApp();
       case Destination.trends:
-        return const Text("Trends");
+        return TrendsPage();
     }
   }
 
