@@ -1,5 +1,5 @@
 import 'package:final_ctrl_alt_defeat/View/GoalPage.dart';
-import 'package:final_ctrl_alt_defeat/View/HomePage.dart';
+import 'package:final_ctrl_alt_defeat/View/SearchPage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
@@ -18,7 +18,7 @@ enum Destination {
   Widget get widget {
     switch (this) {
       case Destination.home:
-        return const HomePage();
+        return const SearchPage();
       case Destination.goals:
         return GoalPage();
       case Destination.calendar:
