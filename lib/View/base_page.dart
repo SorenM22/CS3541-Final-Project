@@ -58,7 +58,7 @@ class _BasePageState extends State<BasePage> {
     return Scaffold(
       appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.onSurface,
-          title: const Text('Home Page'),
+          title: const Text('Base Page'),
           leading: Builder(builder: (context) {
             return IconButton(
               onPressed: Scaffold.of(context).openDrawer,

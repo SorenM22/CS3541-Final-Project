@@ -1,5 +1,6 @@
 import 'package:final_ctrl_alt_defeat/View/GoalPage.dart';
 import 'package:final_ctrl_alt_defeat/View/csv_read_test.dart';
+import 'package:final_ctrl_alt_defeat/View/SearchPage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
@@ -25,7 +26,8 @@ enum Destination {
       case Destination.calendar:
         return const Text("Calendar Page");
       case Destination.listings:
-        return const CsvComparisonApp();
+        return const SearchPage();
+        //return const CsvComparisonApp();
       case Destination.trends:
         return const Text("Trends");
     }
