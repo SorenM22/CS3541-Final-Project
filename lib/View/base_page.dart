@@ -3,9 +3,6 @@ import 'package:final_ctrl_alt_defeat/Model/session_data.dart';
 import 'package:final_ctrl_alt_defeat/Presenter/search_bar_presenter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:standard_searchbar/new/standard_search_anchor.dart';
-import 'package:standard_searchbar/new/standard_search_bar.dart';
-import 'package:standard_searchbar/new/standard_search_controller.dart';
 import '../Model/destination.dart';
 import 'package:audioplayers/audioplayers.dart';
 
