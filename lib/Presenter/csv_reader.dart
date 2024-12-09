@@ -18,22 +18,22 @@ class csv_reader {
     return const CsvToListConverter().convert(result, eol: "\n");
   }
 
-  Future<Set<dynamic>> _retrieveSearchSet(csvCallable ,int setTypeIndex, context) async {
+  Future<Set<String>> _retrieveSearchSet(csvCallable ,int setTypeIndex, context) async {
     List<List<dynamic>> baseCSV = await csvCallable(context);
     List<List<dynamic>> filteredList = baseCSV.skip(1).toList();
 
-    Set<dynamic> searchSet = {};
+    Set<String> searchSet = {};
     for (var row in filteredList) {
-      searchSet.add(row[setTypeIndex]);
+      searchSet.add(row[setTypeIndex].toString());
     }
 
     return searchSet;
   }
 
-  Future<Set<dynamic>> retrieveJobsTitlesSet(context) => _retrieveSearchSet(_retrieveEngineerCsv,2,context);
-  Future<Set<dynamic>> retrieveJobsCitiesSet(context) => _retrieveSearchSet(_retrieveEngineerCsv,3,context);
-  Future<Set<dynamic>> retrieveTrendsCategorySet(context) => _retrieveSearchSet(_retrieveJobsCsv,2,context);
-  Future<Set<dynamic>> retrieveTrendsCountrySet(context) => _retrieveSearchSet(_retrieveJobsCsv,8,context);
+  Future<Set<String>> retrieveJobsTitlesSet(context) => _retrieveSearchSet(_retrieveEngineerCsv,2,context);
+  Future<Set<String>> retrieveJobsCitiesSet(context) => _retrieveSearchSet(_retrieveEngineerCsv,3,context);
+  Future<Set<String>> retrieveTrendsCategorySet(context) => _retrieveSearchSet(_retrieveJobsCsv,2,context);
+  Future<Set<String>> retrieveTrendsCountrySet(context) => _retrieveSearchSet(_retrieveJobsCsv,8,context);
 
   Future<List<List<dynamic>>> searchEngineerSalarybyFilter(String? companyName, String? location, String? jobTitle, context) async {
     List<List<dynamic>> baseCSV = await _retrieveEngineerCsv(context);

@@ -1,9 +1,14 @@
 import 'package:final_ctrl_alt_defeat/Model/authentication_repository.dart';
 import 'package:final_ctrl_alt_defeat/Model/session_data.dart';
+import 'package:final_ctrl_alt_defeat/Presenter/search_bar_presenter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:standard_searchbar/new/standard_search_anchor.dart';
+import 'package:standard_searchbar/new/standard_search_bar.dart';
+import 'package:standard_searchbar/new/standard_search_controller.dart';
 import '../Model/destination.dart';
 import 'package:audioplayers/audioplayers.dart';
+
 
 
 class BasePage extends StatefulWidget {
@@ -15,6 +20,8 @@ class BasePage extends StatefulWidget {
 
 class _BasePageState extends State<BasePage> {
   final auth = Get.put(AuthenticationRepository());
+  final SearchBarPresenter searchBarPresenter = Get.put(SearchBarPresenter());
+
 
   void navToHome() => Get.toNamed(Destination.home.route, id: 1);
   void navToGoals() => Get.toNamed(Destination.goals.route, id: 1);
@@ -34,6 +41,11 @@ class _BasePageState extends State<BasePage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -49,11 +61,35 @@ class _BasePageState extends State<BasePage> {
           actions: <Widget>[
             SizedBox(
               width: 300,
-              child: TextField(
-                style: TextStyle(color: Colors.white),
-                decoration: InputDecoration(
-                  suffixIcon: Icon(Icons.search, color: Theme.of(context).colorScheme.onPrimary),
-                ),
+              height: 45,
+              child: SearchAnchor(
+                searchController: searchBarPresenter.searchBarController,
+                builder: (BuildContext context, SearchController controller) {
+                  return SearchBar(
+                    leading: const Icon(Icons.search),
+                    controller: controller,
+                    onTap: () {
+                      controller.openView();
+                    },
+                    onChanged: (_) {
+                      controller.openView();
+                    },
+                  );
+                },
+                suggestionsBuilder: (BuildContext context, SearchController controller) async {
+                  List<String> suggestions = await searchBarPresenter.getActiveSuggestions(controller.text,context);
+                  return List<ListTile>.generate(suggestions.length, (int index) {
+                    final String item = suggestions[index];
+                    return ListTile(
+                      title: Text(item),
+                      onTap: () {
+                        setState(() {
+                          controller.closeView(item);
+                        });
+                      },
+                    );
+                  });
+                },
               ),
             ),
             IconButton(
