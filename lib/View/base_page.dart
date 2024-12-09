@@ -18,7 +18,8 @@ class BasePage extends StatefulWidget {
 class _BasePageState extends State<BasePage> {
   final auth = Get.put(AuthenticationRepository());
   final SearchBarPresenter searchBarPresenter = Get.put(SearchBarPresenter());
-
+  final AudioPlayer _audioPlayer = AudioPlayer();
+  bool isPlaying = false;
 
   void navToHome() => Get.toNamed(Destination.home.route, id: 1);
   void navToGoals() => Get.toNamed(Destination.goals.route, id: 1);
@@ -32,9 +33,25 @@ class _BasePageState extends State<BasePage> {
     sessionData.searchContent = SearchContent.trends;
   }
 
-  final AudioPlayer _audioPlayer = AudioPlayer();
+  void toggleSound() {
+    setState(() {
+      if (isPlaying) {
+        // Pause the sound
+        pauseSound();
+      } else {
+        // Play the sound
+        playSound();
+      }
+      isPlaying = !isPlaying;
+    });
+  }
+
   void playSound() async {
     await _audioPlayer.play(AssetSource('Assets/Aylex - Meditation.mp3')); // Play local file
+  }
+
+  void pauseSound() async {
+    await _audioPlayer.pause(); // Pause sound
   }
 
   @override
@@ -135,9 +152,14 @@ class _BasePageState extends State<BasePage> {
               onTap: navToCalendar,
             ),
             ListTile(
-              title: Text("Sound"),
-              onTap: playSound,
-              // onTap: clickedSound,
+              title: Row(
+                children: [
+                  Text("Calming Music"),
+                  SizedBox(width: 8),
+                  Icon(isPlaying ? Icons.pause : Icons.play_arrow),
+                ],
+              ),
+              onTap: toggleSound,
             )
           ],
         ),
