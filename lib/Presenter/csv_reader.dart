@@ -1,6 +1,7 @@
 
 import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
+import 'package:statistics/statistics.dart';
 
 class csv_reader {
 
@@ -74,6 +75,89 @@ class csv_reader {
     }
 
     return filteredList;
+  }
+
+  Future<double> findBestEngineerSalarybyCity(String location, context) async {
+    List<List<dynamic>> baseCSV = await _retrieveEngineerCsv(context);
+    List<List<dynamic>> filteredList = baseCSV.skip(1).toList();
+
+    filteredList = filteredList.where((row) => row[3] == location).toList();
+
+    double maxSalary = filteredList.map((row) => row[6] as double).reduce((currentMax, element) => currentMax > element ? currentMax : element);
+
+    return maxSalary;
+  }
+
+  Future<List<List<dynamic>>> findBestJobSalary(String? country, String? jobTitle, context) async{
+    List<List<dynamic>> baseCSV = await _retrieveEngineerCsv(context);
+    List<List<dynamic>> filteredList = baseCSV.skip(1).toList();
+
+    Map<String, List<List<dynamic>>> groupedByCountry = {};
+
+    //Sorts the data from the CSV into groups mapped to the job's country of origin
+    for(var row in filteredList){
+      String country = row[8];
+      if(!groupedByCountry.containsKey(country)){
+        groupedByCountry[country] = [];
+      }
+      groupedByCountry[country]!.add(row);
+    }
+
+    //Instantiate the result set prior to trying to add to it
+    List<List<dynamic>> result = [['Country', 'BestSalary']];
+
+
+    //Identify the best salary of each coutnry and add it to a list of a list so we have a collection of country, best salary pairs
+    for(var entry in groupedByCountry.entries){
+      String country = entry.key;
+      List<List<dynamic>> rows = entry.value;
+
+      List<List<dynamic>> jobTitleFilteredRows = rows.where((row) => row[1] == jobTitle).toList();
+
+      if (jobTitleFilteredRows.isNotEmpty){
+        double bestSalary = jobTitleFilteredRows.map((row) => row[3] as double).reduce((a,b) => a > b ? a : b);
+        
+        result.add([country, bestSalary]);
+      }
+    }
+    return result;
+  }
+
+
+  Future<List<List<dynamic>>> findCompanySizeSalaryPattern(context) async{
+    List<List<dynamic>> baseCSV = await _retrieveJobsCsv(context);
+    List<List<dynamic>> filteredCSV = baseCSV.skip(1).toList();
+
+    List<List<dynamic>> result = [['Company Size', 'Maximum Salary', 'Minimum Salary', 'Median', 'Mean', 'Standard Deviation']];
+
+    Map<String, List<List<dynamic>>> groupedByCompanySize = {};
+
+    //Maps all rows of a company size to a collection of that size
+    for(var row in filteredCSV){
+      String companySize = row[9];
+      if(!groupedByCompanySize.containsKey(companySize)){
+        groupedByCompanySize[companySize] = [];
+      }
+      groupedByCompanySize[companySize]!.add(row);
+    }
+
+    //Identify statistical numbers for each company size
+    for (var entry in groupedByCompanySize.entries){
+      String companySize = entry.key;
+      List<List<dynamic>> rows = entry.value;
+      List<double> salaries = [];
+
+      if (rows.isNotEmpty) {
+        for(var row in rows){
+          salaries.add(row[3]);
+        }
+
+        var stats = salaries.statistics;
+
+        result.add([companySize, stats.max, stats.min, stats.median, stats.mean.toString(), stats.standardDeviation.toStringAsPrecision(2)]);
+      }
+    }
+    return result;
   }
   
 }
