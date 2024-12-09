@@ -60,7 +60,7 @@ class csv_reader {
     return filteredList;
   }
 
-  Future<double> searchEngineerSalarybyCity(String location, context) async {
+  Future<double> findBestEngineerSalarybyCity(String location, context) async {
     List<List<dynamic>> baseCSV = await _retrieveEngineerCsv(context);
     List<List<dynamic>> filteredList = baseCSV.skip(1).toList();
 
