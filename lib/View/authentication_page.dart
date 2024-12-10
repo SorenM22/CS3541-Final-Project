@@ -56,8 +56,8 @@ class AuthenticationPage extends StatelessWidget {
             children: [
               Column(
                   children: [
-                   Text("Welcome to MyFit!", textAlign: TextAlign.center, style: TextStyle(fontSize: 40, color: Theme.of(context).colorScheme.onPrimary),),
-                   Text("The best place to record all your workouts \n May you have many wonderful workouts in the future",
+                   Text("Welcome to CodeBoard Careers!\n", textAlign: TextAlign.center, style: TextStyle(fontSize: 40, color: Theme.of(context).colorScheme.onPrimary),),
+                   Text("The best place for computer science job hunting \n May you have many wonderful interviews in the future",
                      textAlign: TextAlign.center,
                      style: TextStyle(fontSize: 15, color: Theme.of(context).colorScheme.onPrimary),),
                  ],
