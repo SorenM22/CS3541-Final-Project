@@ -22,27 +22,49 @@ class GoalState extends State<GoalPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("Enter your goal", style: TextStyle(color: Theme.of(context).colorScheme.onPrimary)),
+          title: Center(
+              child: Text(
+                "Enter your goal",
+                style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+              ),
+          ),
           content: TextField(
             controller: goalController,
             decoration: InputDecoration(hintText: "Enter your goal"),
           ),
-          actions: <Widget>[
-            TextButton(
-              child: Text("Cancel", style: TextStyle(color: Theme.of(context).colorScheme.onPrimary)),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: Text("Submit", style: TextStyle(color: Theme.of(context).colorScheme.onPrimary)),
-              onPressed: () {
-                setState(() {
-                  _goals.add(goalController.text); // Add goal to the array
-                });
-                goalController.clear();
-                Navigator.of(context).pop();
-              },
+          actions: [
+            Column(
+              mainAxisSize: MainAxisSize.min, // Minimize column size
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center, // Center the buttons
+                  children: [
+                    ElevatedButton(
+                      child: Text(
+                        "Cancel",
+                        style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                    SizedBox(width: 10), // Add spacing between buttons
+                    ElevatedButton(
+                      child: Text(
+                        "Submit",
+                        style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _goals.add(goalController.text); // Add goal to the array
+                        });
+                        goalController.clear();
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
+                ),
+              ],
             ),
           ],
         );
@@ -60,6 +82,8 @@ class GoalState extends State<GoalPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+        centerTitle: true,
         backgroundColor: Theme.of(context).colorScheme.secondary,
         title: Text("Goals", style: TextStyle(color: Theme.of(context).colorScheme.onSecondary)),
       ),
@@ -67,13 +91,6 @@ class GoalState extends State<GoalPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            Text(
-              "Your Goals",
-              style: TextStyle(
-                fontSize: 24,
-                color: Theme.of(context).colorScheme.onPrimary,
-              ),
-            ),
             Expanded(
               child: ListView.builder(
                 itemCount: _goals.length,
@@ -92,7 +109,10 @@ class GoalState extends State<GoalPage> {
                 style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
               ),
             ),
-
+            Divider(
+              color: Theme.of(context).colorScheme.onPrimary,
+              thickness: 1.0,
+            )
           ],
         ),
       ),
@@ -108,15 +128,31 @@ class GoalWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(name, style: TextStyle(color: Theme.of(context).colorScheme.onPrimary)),
-        IconButton(
-          icon: Icon(Icons.delete, color: Theme.of(context).colorScheme.onSecondary),
-          onPressed: onDelete, // Invoke delete callback
+    return Card(
+      elevation: 4.0, // Adds shadow effect
+      margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0), // Adds spacing
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12.0), // Rounded corners
+      ),
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0), // Padding inside the card
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center, // Space between text and icon
+          children: [
+            Text(
+              name,
+              style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+            ),
+            IconButton(
+              icon: Icon(
+                Icons.delete,
+                color: Theme.of(context).colorScheme.onSecondary,
+              ),
+              onPressed: onDelete, // Invoke delete callback
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }
