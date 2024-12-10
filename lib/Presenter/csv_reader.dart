@@ -161,7 +161,7 @@ class csv_reader {
 
         var stats = salaries.statistics;
 
-        result.add([companySize, stats.max, stats.min, stats.median, stats.mean.toString(), stats.standardDeviation.toStringAsPrecision(2)]);
+        result.add([companySize, stats.max.toStringAsFixed(2), stats.min.toStringAsFixed(2), stats.median.toStringAsFixed(2), stats.mean.toStringAsFixed(2), stats.standardDeviation.toStringAsFixed(2)]);
       }
     }
     return result;
