@@ -7,7 +7,6 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import '../Presenter/interview_presenter.dart';
 
-
 import '../Presenter/calendar_presenter.dart';
 
 
@@ -50,18 +49,94 @@ class _CalendarState extends State<Calendar> {
                     // the time-part of compared DateTime objects.
                     return isSameDay(_selectedDay, day);
                   },
-                  onDaySelected: (selectedDay, focusedDay) {
+                  onDaySelected: (selectedDay, focusedDay) async {
                     if (!isSameDay(_selectedDay, selectedDay)) {
-                      // Call `setState()` when updating the selected day
 
+                      String companyName = '';
 
-                      Future<TimeOfDay?> selectedTime = showTimePicker(
-                        initialTime: TimeOfDay.now(),
+                      showDialog<String>(
                         context: context,
-                      );
+                        builder: (BuildContext context) => AlertDialog(
+                          title: const Text('Company Name'),
+                          content: const Text('Enter the name of the company your interview is with.'),
+                          actions: <Widget>[
+                            Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  TextField(
+                                    onChanged: (text) {
+                                      companyName = text;
+                                    },
+                                    keyboardType: TextInputType.name,
+                                    decoration: InputDecoration(
+                                      constraints: BoxConstraints.tight(Size(150,50)),
+                                      border: OutlineInputBorder(),
+                                      hintText: 'Company Name',
 
+                                    ),
+                                  ),
+                                  Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        TextButton(
+                                          onPressed: (){
+                                            Navigator.pop(context, 'CANCEL');
+                                          },
+                                          style: TextButton.styleFrom(
+                                            foregroundColor: Colors.black,
+                                          ),
+                                          child: const Text('CANCEL'),
+                                        ),
+                                        TextButton(
+                                          onPressed: () async {
+                                            if(companyName.isEmpty) {
+                                              Navigator.pop(context, 'OK');
+                                              showDialog<String>(
+                                                context: context,
+                                                builder: (BuildContext context) => AlertDialog(
+                                                  title: const Text('Missing Company Name'),
+                                                  content: const Text('You must include a company name to create an interview.'),
+                                                  actions: <Widget>[
+                                                    Column(
+                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                        children: [
+                                                          TextButton(
+                                                            onPressed: () => Navigator.pop(context, 'OK'),
+                                                            style: TextButton.styleFrom(
+                                                              foregroundColor: Colors.black,
+                                                            ),
+                                                            child: const Text('OK'),
+                                                          ),
+                                                        ]
+                                                    )
+                                                  ],
+                                                ),
+                                              );
+                                            } else {
+                                              Navigator.pop(context, 'OK');
+                                              TimeOfDay? time = await showTimePicker(
+                                                context: context,
+                                                initialTime: TimeOfDay.now(),
+                                              );
+                                              man.newInterview(selectedDay, time, companyName);
+                                              setState(() {});
+                                            }
+                                          },
+                                          style: TextButton.styleFrom(
+                                            foregroundColor: Colors.black,
+                                          ),
+                                          child: const Text('OK'),
+                                        ),
+                                      ]
+                                  )
+                                ]
+                            ),
+                          ],
+                        ),
+                      );
                       setState(() {
-                        _selectedDay = selectedDay;
+
+                        //_selectedDay = selectedDay;
                         _focusedDay = focusedDay;
                       });
                     }
@@ -83,17 +158,6 @@ class _CalendarState extends State<Calendar> {
 
 
 
-                ElevatedButton(
-                  child: const Text('Open time picker'),
-                  onPressed: () async {
-                    Future<TimeOfDay?> selectedTime = showTimePicker(
-                      initialTime: TimeOfDay.now(),
-                      context: context,
-                    );
-
-
-                  },
-                ),
 
 
 
