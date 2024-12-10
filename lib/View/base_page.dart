@@ -162,6 +162,7 @@ class _BasePageState extends State<BasePage> {
                 );
               }
             ),
+            SizedBox(width: 20),
             TextButton.icon(
                 onPressed: navToTrends,
                 icon: Icon(Icons.trending_up),
