@@ -83,7 +83,7 @@ class _CalendarState extends State<Calendar> {
                                             Navigator.pop(context, 'CANCEL');
                                           },
                                           style: TextButton.styleFrom(
-                                            foregroundColor: Colors.black,
+                                            foregroundColor: Theme.of(context).colorScheme.onPrimary,
                                           ),
                                           child: const Text('CANCEL'),
                                         ),
@@ -103,7 +103,7 @@ class _CalendarState extends State<Calendar> {
                                                           TextButton(
                                                             onPressed: () => Navigator.pop(context, 'OK'),
                                                             style: TextButton.styleFrom(
-                                                              foregroundColor: Colors.black,
+                                                              foregroundColor: Theme.of(context).colorScheme.onPrimary,
                                                             ),
                                                             child: const Text('OK'),
                                                           ),
@@ -117,13 +117,26 @@ class _CalendarState extends State<Calendar> {
                                               TimeOfDay? time = await showTimePicker(
                                                 context: context,
                                                 initialTime: TimeOfDay.now(),
+                                                  builder: (context, child) {
+                                                    return Theme(
+                                                      data: ThemeData.light().copyWith(
+                                                        colorScheme: ColorScheme.light(
+                                                          onSurface: Theme.of(context).colorScheme.onPrimary,
+                                                        ),
+                                                      ),
+                                                      child: child!,
+                                                    );
+                                                  }
+
+
+
                                               );
                                               man.newInterview(selectedDay, time, companyName);
                                               setState(() {});
                                             }
                                           },
                                           style: TextButton.styleFrom(
-                                            foregroundColor: Colors.black,
+                                            foregroundColor: Theme.of(context).colorScheme.onPrimary,
                                           ),
                                           child: const Text('OK'),
                                         ),
