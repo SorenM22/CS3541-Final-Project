@@ -29,9 +29,12 @@ class _CalendarState extends State<Calendar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('TableCalendar - Basics'),
-      ),
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          centerTitle: true,
+          backgroundColor: Theme.of(context).colorScheme.secondary,
+          title: Text("TableCalendar - Basics", style: TextStyle(color: Theme.of(context).colorScheme.onSecondary)),
+        ),
       body: Center(
           child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -167,13 +170,16 @@ class _CalendarState extends State<Calendar> {
                     itemBuilder: (context, index) => man.interviewList[index]
                 ),
 
-
-
-
+                Spacer(
+                  flex: 100,
+                ),
+                Divider(
+                  color: Theme.of(context).colorScheme.onPrimary,
+                  thickness: 1.0,
+                )
               ]
           )
       )
-
     );
   }
 }
