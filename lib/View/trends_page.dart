@@ -66,7 +66,7 @@ class _TrendsPageState extends State<TrendsPage> {
                     : null,
               ),
               child: const Text(
-                "Salary",
+                "Search",
                 style: TextStyle(color: Colors.white),
               ),
             ),
