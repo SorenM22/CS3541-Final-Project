@@ -83,24 +83,34 @@ class _TrendsPageState extends State<TrendsPage> {
             Flexible(
               child: FutureBuilder(
                 builder: (context, snapshot) {
-                  return ListView.builder(
+
+                  final trends = selectedValue == false
+                      ? salaryByCountry
+                      : companySizePattern;
+              return Row(
+                children:[
+                  Expanded(flex: 1, child: scrollableList(trends))
+                ]
+              );
+
+                  /*return ListView.builder(
                     shrinkWrap: false,
                     itemCount: selectedValue == false
                         ? salaryByCountry.length
                         : companySizePattern.length,
                     itemBuilder: (context, index) {
-                      final trends = selectedValue == false
-                          ? salaryByCountry
-                          : companySizePattern;
-                        ListView.builder(
+
+
+
+                        /*ListView.builder(
                         shrinkWrap: false,
                         itemCount: 3,
                         itemBuilder: (BuildContext context, int index) {
                           return TrendWidget(country: trends[index] as String, bestSalary: trends[index] as String);
                         },
-                      );
+                      );*/
                     },
-                  );
+                  );*/
                 },
                 future: getBestJobSalary(),
               ),
@@ -127,4 +137,36 @@ class TrendWidget extends StatelessWidget {
       ],
     );
   }
+}
+
+Widget scrollableList(List<List<dynamic>>? data) {
+  if (data == null) {
+    return const Center(child: CircularProgressIndicator());
+  }
+  // print(data);
+
+  return ListView.separated(
+      itemCount: data.length,
+      shrinkWrap: true,
+      separatorBuilder: (context, index) => const Divider(),
+      itemBuilder: (context, index) {
+        final row = data[index];
+        return Column(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            DecoratedBox(
+                decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.onPrimaryContainer,
+                    border: Border.all(width: 1)
+                ),
+                child: Column(
+                  children: [
+                    Text(row[0].toString()),
+                    Text(row[1].toString()),
+                  ],
+                )
+            )
+          ],
+        );
+      });
 }

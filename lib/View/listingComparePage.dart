@@ -38,7 +38,7 @@ class _ListingComparePageState extends State<ListingComparePage> {
     if (data == null) {
       return const Center(child: CircularProgressIndicator());
     }
-    print(data);
+    // print(data);
 
     return ListView.separated(
         itemCount: data.length,
