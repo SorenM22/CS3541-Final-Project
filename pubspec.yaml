@@ -50,6 +50,7 @@ dependencies:
   date_field: ^5.2.0
   csv: ^6.0.0
   statistics:
+  table_calendar: ^3.1.2
 
 dev_dependencies:
   flutter_test:
