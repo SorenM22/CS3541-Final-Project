@@ -121,7 +121,7 @@ class csv_reader {
       // print(jobTitleFilteredRows.length);
 
       if (jobTitleFilteredRows.isNotEmpty){
-        String bestSalary = jobTitleFilteredRows.map((row) => row[3] as int).reduce((a,b) => a > b ? a : b).toString();
+        String bestSalary = jobTitleFilteredRows.map((row) => row[3] as int).reduce((a,b) => a > b ? a : b).toStringAsFixed(2);
         
         result.add([country, bestSalary]);
         // print("$country, $bestSalary was added");
