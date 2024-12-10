@@ -101,21 +101,29 @@ class csv_reader {
       groupedByCountry[country]!.add(row);
     }
 
+    // print("grouped by country");
+
     //Instantiate the result set prior to trying to add to it
     List<List<dynamic>> result = [['Country', 'BestSalary']];
 
+    // print(groupedByCountry.length);
 
     //Identify the best salary of each coutnry and add it to a list of a list so we have a collection of country, best salary pairs
     for(var entry in groupedByCountry.entries){
       String country = entry.key;
       List<List<dynamic>> rows = entry.value;
 
+      // print("$country, " + rows.length.toString());
+
       List<List<dynamic>> jobTitleFilteredRows = rows.where((row) => row[2] == jobTitle).toList();
 
+      // print(jobTitleFilteredRows.length);
+
       if (jobTitleFilteredRows.isNotEmpty){
-        double bestSalary = jobTitleFilteredRows.map((row) => row[3] as double).reduce((a,b) => a > b ? a : b);
+        String bestSalary = jobTitleFilteredRows.map((row) => row[3] as int).reduce((a,b) => a > b ? a : b).toString();
         
         result.add([country, bestSalary]);
+        // print("$country, $bestSalary was added");
       }
     }
     return result;
@@ -143,7 +151,7 @@ class csv_reader {
     for (var entry in groupedByCompanySize.entries){
       String companySize = entry.key;
       List<List<dynamic>> rows = entry.value;
-      List<double> salaries = [];
+      List<int> salaries = [];
 
       if (rows.isNotEmpty) {
         for(var row in rows){

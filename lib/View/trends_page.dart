@@ -18,7 +18,9 @@ class _TrendsPageState extends State<TrendsPage> {
   List<List<dynamic>> salaryByCountry = [];
   Future<void> getBestJobSalary() async {
     print(searchBarPresenter.getLatestSearch());
-    salaryByCountry = await reader.findBestJobSalary(null, searchBarPresenter.getLatestSearch(), context);
+    if(searchBarPresenter.getLatestSearch().isEmpty){
+      salaryByCountry = await reader.findBestJobSalary(null, "Data Engineer", context);
+    } else {salaryByCountry = await reader.findBestJobSalary(null, searchBarPresenter.getLatestSearch(), context);}
   }
 
   List<List<dynamic>> companySizePattern = [];
@@ -29,8 +31,6 @@ class _TrendsPageState extends State<TrendsPage> {
   @override
   void initState() {
     super.initState();
-    getBestJobSalary();
-    getCompanySizeSalaryPattern();
   }
 
   @override
@@ -43,7 +43,8 @@ class _TrendsPageState extends State<TrendsPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextButton(
-              onPressed: () {
+              onPressed: () async {
+                await getBestJobSalary();
                 setState(() {
                   selectedValue = true;
                 });
@@ -58,7 +59,8 @@ class _TrendsPageState extends State<TrendsPage> {
             ),
             const SizedBox(width: 10), // Add spacing between buttons
             TextButton(
-              onPressed: () {
+              onPressed: () async {
+                await getCompanySizeSalaryPattern();
                 setState(() {
                   selectedValue = false;
                 });
@@ -81,7 +83,6 @@ class _TrendsPageState extends State<TrendsPage> {
             Flexible(
               child: FutureBuilder(
                 builder: (context, snapshot) {
-                  print(salaryByCountry);
                   return ListView.builder(
                     shrinkWrap: false,
                     itemCount: selectedValue == false
@@ -91,7 +92,6 @@ class _TrendsPageState extends State<TrendsPage> {
                       final trends = selectedValue == false
                           ? salaryByCountry
                           : companySizePattern;
-                      return Text("data");
                         ListView.builder(
                         shrinkWrap: false,
                         itemCount: 3,
