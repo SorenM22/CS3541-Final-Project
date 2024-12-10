@@ -67,7 +67,7 @@ class _TrendsPageState extends State<TrendsPage> {
               ),
               child: Text(
                 "Search",
-                style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+                style: TextStyle(color: Theme.of(context).colorScheme.primary),
               ),
             ),
             const SizedBox(width: 10),
@@ -80,7 +80,7 @@ class _TrendsPageState extends State<TrendsPage> {
               ),
               child: Text(
                 "Size",
-                style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+                style: TextStyle(color: Theme.of(context).colorScheme.primary),
               ),
             ),
           ],
