@@ -27,19 +27,30 @@ class ImagePickerPresenter {
   }
 
   List<Widget> getImageOptions(BuildContext context, Function onImageSelected) {
-    return model.imagePaths.map((path) {
-      return GestureDetector(
-        onTap: () {
-          pickImage(path);
-          onImageSelected();
-        },
-        child: Image.asset(
-          path,
-          width: 100,
-          height: 100,
-          fit: BoxFit.cover,
+    List<Widget> imageWidgets = [];
+
+    for (int i = 0; i < model.imagePaths.length; i++) {
+      String path = model.imagePaths[i];
+
+      imageWidgets.add(
+        GestureDetector(
+          onTap: () {
+            pickImage(path);
+            onImageSelected();
+          },
+          child: Image.asset(
+            path,
+            width: 100,
+            height: 100,
+            fit: BoxFit.cover,
+          ),
         ),
       );
-    }).toList();
+      if (i < model.imagePaths.length - 1) {
+        imageWidgets.add(SizedBox(height: 10));
+      }
+    }
+
+    return imageWidgets;
   }
 }
