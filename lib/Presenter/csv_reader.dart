@@ -110,7 +110,7 @@ class csv_reader {
       String country = entry.key;
       List<List<dynamic>> rows = entry.value;
 
-      List<List<dynamic>> jobTitleFilteredRows = rows.where((row) => row[1] == jobTitle).toList();
+      List<List<dynamic>> jobTitleFilteredRows = rows.where((row) => row[2] == jobTitle).toList();
 
       if (jobTitleFilteredRows.isNotEmpty){
         double bestSalary = jobTitleFilteredRows.map((row) => row[3] as double).reduce((a,b) => a > b ? a : b);

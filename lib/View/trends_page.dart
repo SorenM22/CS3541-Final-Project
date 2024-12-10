@@ -1,3 +1,4 @@
+import 'package:final_ctrl_alt_defeat/Presenter/search_bar_presenter.dart';
 import 'package:flutter/material.dart';
 
 import '../Presenter/csv_reader.dart';
@@ -12,10 +13,12 @@ class TrendsPage extends StatefulWidget {
 class _TrendsPageState extends State<TrendsPage> {
   final reader = csv_reader();
   bool selectedValue = true; // Selected value for the radio button group
+  var searchBarPresenter = SearchBarPresenter.instance;
 
   List<List<dynamic>> salaryByCountry = [];
   Future<void> getBestJobSalary() async {
-    salaryByCountry = await reader.findBestJobSalary(null, null, context);
+    print(searchBarPresenter.getLatestSearch());
+    salaryByCountry = await reader.findBestJobSalary(null, searchBarPresenter.getLatestSearch(), context);
   }
 
   List<List<dynamic>> companySizePattern = [];
@@ -75,10 +78,12 @@ class _TrendsPageState extends State<TrendsPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            Expanded(
+            Flexible(
               child: FutureBuilder(
                 builder: (context, snapshot) {
+                  print(salaryByCountry);
                   return ListView.builder(
+                    shrinkWrap: false,
                     itemCount: selectedValue == false
                         ? salaryByCountry.length
                         : companySizePattern.length,
@@ -86,7 +91,10 @@ class _TrendsPageState extends State<TrendsPage> {
                       final trends = selectedValue == false
                           ? salaryByCountry
                           : companySizePattern;
-                      return ListView.builder(
+                      return Text("data");
+                        ListView.builder(
+                        shrinkWrap: false,
+                        itemCount: 3,
                         itemBuilder: (BuildContext context, int index) {
                           return TrendWidget(country: trends[index] as String, bestSalary: trends[index] as String);
                         },
