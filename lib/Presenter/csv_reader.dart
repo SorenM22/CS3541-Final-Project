@@ -121,7 +121,7 @@ class csv_reader {
       // print(jobTitleFilteredRows.length);
 
       if (jobTitleFilteredRows.isNotEmpty){
-        String bestSalary = jobTitleFilteredRows.map((row) => row[3] as int).reduce((a,b) => a > b ? a : b).toString();
+        String bestSalary = jobTitleFilteredRows.map((row) => row[3] as int).reduce((a,b) => a > b ? a : b).toStringAsFixed(2);
         
         result.add([country, bestSalary]);
         // print("$country, $bestSalary was added");
@@ -161,7 +161,7 @@ class csv_reader {
 
         var stats = salaries.statistics;
 
-        result.add([companySize, stats.max, stats.min, stats.median, stats.mean.toString(), stats.standardDeviation.toStringAsPrecision(2)]);
+        result.add([companySize, stats.max.toStringAsFixed(2), stats.min.toStringAsFixed(2), stats.median.toStringAsFixed(2), stats.mean.toStringAsFixed(2), stats.standardDeviation.toStringAsFixed(2)]);
       }
     }
     return result;
