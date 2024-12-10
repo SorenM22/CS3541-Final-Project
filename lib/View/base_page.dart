@@ -1,5 +1,4 @@
 import 'dart:typed_data';
-
 import 'package:final_ctrl_alt_defeat/Model/authentication_repository.dart';
 import 'package:final_ctrl_alt_defeat/Presenter/csv_reader.dart';
 import 'package:final_ctrl_alt_defeat/Presenter/search_bar_presenter.dart';
@@ -8,6 +7,9 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import '../Model/destination.dart';
 import 'package:audioplayers/audioplayers.dart';
+
+import '../Model/image_model.dart';
+import '../Presenter/image_presenter.dart';
 
 
 class BasePage extends StatefulWidget {
@@ -18,6 +20,8 @@ class BasePage extends StatefulWidget {
 }
 
 class _BasePageState extends State<BasePage> {
+  late ImagePickerPresenter presenter;
+  String selectedImagePath = 'Assets/bridgeTest2.jpg';
   final auth = Get.put(AuthenticationRepository());
   final SearchBarPresenter searchBarPresenter = Get.put(SearchBarPresenter());
   final AudioPlayer _audioPlayer = AudioPlayer();
@@ -28,6 +32,7 @@ class _BasePageState extends State<BasePage> {
   void navToHome() => Get.toNamed(Destination.home.route, id: 1);
   void navToGoals() => Get.toNamed(Destination.goals.route, id: 1);
   void navToCalendar() => Get.toNamed(Destination.calendar.route, id: 1);
+  void navToSettings() => Get.toNamed(Destination.settings.route, id: 1);
   void navToSearchListings() {
     searchBarPresenter.activeSuggestionsType = SuggestionType.jobsTitle;
     Get.toNamed(Destination.searchListings.route, id: 1);
@@ -45,7 +50,8 @@ class _BasePageState extends State<BasePage> {
 
   void initState() {
     super.initState();
-
+    presenter = ImagePickerPresenter(ImageModel());
+    presenter.selectedImagePathNotifier.addListener(updateSelectedImage);
 
     _audioPlayer.onPlayerStateChanged.listen((PlayerState state) {
       setState(() {
@@ -72,11 +78,35 @@ class _BasePageState extends State<BasePage> {
     }
 
   }
+  void updateSelectedImage() {
+    setState(() {
+      selectedImagePath = presenter.selectedImagePathNotifier.value;
+    });
+  }
+  void showImagePickerDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Choose a Profile Picture'),
+          content: SingleChildScrollView(
+            child: Column(
+              children: presenter.getImageOptions(context, () {
+                Navigator.of(context).pop();
+              }),
+            ),
+          ),
+        );
+      },
+    );
+  }
   @override
   void dispose() {
     _audioPlayer.dispose();
+    presenter.selectedImagePathNotifier.removeListener(updateSelectedImage);
     super.dispose();
   }
+  final String imagePath = r"C:\Users\ajcar\OneDrive\Pictures\bridgeTest.jpg";
 
   @override
   Widget build(BuildContext context) {
@@ -125,12 +155,15 @@ class _BasePageState extends State<BasePage> {
                 },
               ),
             ),
-            IconButton(
-              onPressed: auth.signout,
-              icon: const Icon(Icons.person),
-              color: Colors.white,
-            ),
-          ]),
+            Builder(builder: (context) {
+              return IconButton(
+                onPressed: Scaffold.of(context).openEndDrawer,
+                icon: const Icon(Icons.person),
+                color: Colors.white,
+              );
+            }),
+          ]
+      ),
       body: Navigator(
         key: Get.nestedKey(1),
         initialRoute: Destination.home.route,
@@ -220,6 +253,51 @@ class _BasePageState extends State<BasePage> {
               ),
               onTap: (){playMusic('Assets/Aylex - Meditation.mp3');}
             )
+          ],
+        ),
+      ),
+      endDrawer: Drawer(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.primary,
+              ),
+              child: Row(
+                children: [
+                  GestureDetector(
+                    onTap: showImagePickerDialog, // Trigger dialog on tap
+                    child: CircleAvatar(
+                      radius: 40, // Adjust the radius as needed
+                      backgroundImage: AssetImage(selectedImagePath),
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  const Expanded(
+                    child: Text(
+                      "Username",
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.settings),
+              title: const Text("Settings"),
+              onTap: navToSettings
+            ),
+            const Spacer(),
+            ListTile(
+              leading: const Icon(Icons.logout),
+              title: const Text("Sign Out"),
+              onTap: auth.signout, // Keeps the logout functionality
+            ),
           ],
         ),
       ),

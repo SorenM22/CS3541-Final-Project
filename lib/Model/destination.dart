@@ -1,9 +1,11 @@
 import 'package:final_ctrl_alt_defeat/View/GoalPage.dart';
 import 'package:final_ctrl_alt_defeat/View/SearchPage.dart';
 import 'package:final_ctrl_alt_defeat/View/calendar.dart';
+import 'package:final_ctrl_alt_defeat/View/csv_read_test.dart';
 import 'package:final_ctrl_alt_defeat/View/listingComparePage.dart';
 import 'package:final_ctrl_alt_defeat/View/trendsSearchPage.dart';
 import 'package:final_ctrl_alt_defeat/View/trends_page.dart';
+import 'package:final_ctrl_alt_defeat/View/settings_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
@@ -17,6 +19,7 @@ enum Destination {
   searchListings,
   compareListings,
   searchTrends,
+  settings,
   compareTrends;
 
   String get route {
@@ -30,9 +33,7 @@ enum Destination {
       case Destination.goals:
         return GoalPage();
       case Destination.calendar:
-        return Center(
-          child: Calendar()
-        );
+        return Calendar();
       case Destination.searchListings:
         return const SearchPage();
       case Destination.compareListings:
@@ -41,6 +42,8 @@ enum Destination {
         return const TrendsPage();
       case Destination.searchTrends:
         return const TrendsSearchPage();
+      case Destination.settings:
+        return const SettingsPage();
     }
   }
 
