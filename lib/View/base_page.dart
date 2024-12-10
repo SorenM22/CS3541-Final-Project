@@ -28,6 +28,7 @@ class _BasePageState extends State<BasePage> {
   void navToHome() => Get.toNamed(Destination.home.route, id: 1);
   void navToGoals() => Get.toNamed(Destination.goals.route, id: 1);
   void navToCalendar() => Get.toNamed(Destination.calendar.route, id: 1);
+  void navToSettings() => Get.toNamed(Destination.settings.route, id: 1);
   void navToSearchListings() {
     searchBarPresenter.activeSuggestionsType = SuggestionType.jobsTitle;
     Get.toNamed(Destination.searchListings.route, id: 1);
@@ -121,12 +122,15 @@ class _BasePageState extends State<BasePage> {
                 },
               ),
             ),
-            IconButton(
-              onPressed: auth.signout,
-              icon: const Icon(Icons.person),
-              color: Colors.white,
-            ),
-          ]),
+            Builder(builder: (context) {
+              return IconButton(
+                onPressed: Scaffold.of(context).openEndDrawer,
+                icon: const Icon(Icons.person),
+                color: Colors.white,
+              );
+            }),
+          ]
+      ),
       body: Navigator(
         key: Get.nestedKey(1),
         initialRoute: Destination.home.route,
@@ -196,6 +200,48 @@ class _BasePageState extends State<BasePage> {
               ),
               onTap: (){playMusic('Assets/Aylex - Meditation.mp3');}
             )
+          ],
+        ),
+      ),
+      endDrawer: Drawer(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.primary,
+              ),
+              child: const Row(
+                children: [
+                  CircleAvatar(
+                    radius: 40,
+                    backgroundColor: Colors.black,
+                  ),
+                  SizedBox(width: 16),
+                  Expanded(
+                    child: Text(
+                      "Username",
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.settings),
+              title: const Text("Settings"),
+              onTap: navToSettings
+            ),
+            const Spacer(),
+            ListTile(
+              leading: const Icon(Icons.logout),
+              title: const Text("Sign Out"),
+              onTap: auth.signout, // Keeps the logout functionality
+            ),
           ],
         ),
       ),
