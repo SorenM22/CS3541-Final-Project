@@ -97,9 +97,11 @@ class _TrendsPageState extends State<TrendsPage> {
         ),
       )
           : ListView.builder(
-        itemCount: trends.length,
+        itemCount: trends.length-1,
         itemBuilder: (context, index) {
+            index++;
           if (selectedValue) {
+
 
             final country = trends[index][0];
             final maxSalary = trends[index][1];
