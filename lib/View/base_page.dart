@@ -118,7 +118,7 @@ class _BasePageState extends State<BasePage> {
             return IconButton(
               onPressed: Scaffold.of(context).openDrawer,
               icon: const Icon(Icons.menu),
-              color: Colors.white,
+              color: Theme.of(context).colorScheme.onPrimary,
             );
           }),
           actions: <Widget>[
@@ -159,7 +159,7 @@ class _BasePageState extends State<BasePage> {
               return IconButton(
                 onPressed: Scaffold.of(context).openEndDrawer,
                 icon: const Icon(Icons.person),
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.onPrimary,
               );
             }),
           ]
