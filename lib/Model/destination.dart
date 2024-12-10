@@ -1,12 +1,11 @@
 import 'package:final_ctrl_alt_defeat/View/GoalPage.dart';
 import 'package:final_ctrl_alt_defeat/View/SearchPage.dart';
 import 'package:final_ctrl_alt_defeat/View/calendar.dart';
-import 'package:final_ctrl_alt_defeat/View/csv_read_test.dart';
 import 'package:final_ctrl_alt_defeat/View/listingComparePage.dart';
+import 'package:final_ctrl_alt_defeat/View/trends_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import '../View/GoalPage.dart';
 
 enum Destination {
   home,
@@ -33,7 +32,7 @@ enum Destination {
       case Destination.compareListings:
         return const ListingComparePage();
       case Destination.trends:
-        return const Text("Trends");
+        return TrendsPage();
     }
   }
 
