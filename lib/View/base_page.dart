@@ -33,9 +33,13 @@ class _BasePageState extends State<BasePage> {
     Get.toNamed(Destination.searchListings.route, id: 1);
   }
   void navToCompareListings() => Get.toNamed(Destination.compareListings.route, id: 1);
-  void navToTrends() {
+  void navToSearchTrends() {
+    searchBarPresenter.activeSuggestionsType = SuggestionType.workSetting;
+    Get.toNamed(Destination.searchTrends.route, id: 1);
+  }
+  void navToCompareTrends() {
     searchBarPresenter.activeSuggestionsType = SuggestionType.trendsCategory;
-    Get.toNamed(Destination.trends.route, id: 1);
+    Get.toNamed(Destination.compareTrends.route, id: 1);
   }
 
 
@@ -162,11 +166,31 @@ class _BasePageState extends State<BasePage> {
                 );
               }
             ),
-            TextButton.icon(
-                onPressed: navToTrends,
-                icon: Icon(Icons.trending_up),
-                label: const Text("Trends"),
-                style: TextButton.styleFrom(backgroundColor: Theme.of(context).colorScheme.onPrimary)
+            MenuAnchor(
+                menuChildren: [
+                  MenuItemButton(
+                    onPressed: navToSearchTrends,
+                    child: const Text('Search'),
+                  ),
+                  MenuItemButton(
+                    onPressed: navToCompareTrends,
+                    child: const Text("Compare"),
+                  )
+                ],
+                builder: (context, controller, child) {
+                  return TextButton.icon(
+                      onPressed: () {
+                        if(controller.isOpen) {
+                          controller.close();
+                        } else {
+                          controller.open();
+                        }
+                      },
+                      icon: Icon(Icons.trending_up),
+                      label: const Text("Trends"),
+                      style: TextButton.styleFrom(backgroundColor: Theme.of(context).colorScheme.onPrimary)
+                  );
+                }
             ),
           ],
         ),

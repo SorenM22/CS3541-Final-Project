@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'csv_reader.dart';
 
-enum SuggestionType {jobsTitle,jobsCities,trendsCategory,trendsCountries,none}
+enum SuggestionType {jobsTitle,jobsCities,trendsCategory,trendsCountries, workSetting,none}
 
 class SearchBarPresenter extends GetxController {
   static SearchBarPresenter get instance => Get.find();
@@ -25,6 +25,8 @@ class SearchBarPresenter extends GetxController {
         searchSet = await csvReader.retrieveTrendsCategorySet(context);
       case SuggestionType.trendsCountries:
         searchSet = await csvReader.retrieveTrendsCountrySet(context);
+      case SuggestionType.workSetting:
+        searchSet = await csvReader.retrieveTrendsSettingSet(context);
       case SuggestionType.none:
         return [];
     }

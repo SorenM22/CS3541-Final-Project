@@ -35,6 +35,7 @@ class csv_reader {
   Future<Set<String>> retrieveJobsCitiesSet(context) => _retrieveSearchSet(_retrieveEngineerCsv,3,context);
   Future<Set<String>> retrieveTrendsCategorySet(context) => _retrieveSearchSet(_retrieveJobsCsv,2,context);
   Future<Set<String>> retrieveTrendsCountrySet(context) => _retrieveSearchSet(_retrieveJobsCsv,8,context);
+  Future<Set<String>> retrieveTrendsSettingSet(context) => _retrieveSearchSet(_retrieveJobsCsv,7,context);
 
   Future<List<List<dynamic>>> searchEngineerSalarybyFilter(String? companyName, String? location, String? jobTitle, context) async {
     List<List<dynamic>> baseCSV = await _retrieveEngineerCsv(context);
