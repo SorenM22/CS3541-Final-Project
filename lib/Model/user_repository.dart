@@ -53,5 +53,15 @@ class UserRepository extends GetxController{
     yield await getCurrentProfileInitial() ?? 'P';
   }
 
-
+  Future<String?> getProfileImagePath() async {
+    try {
+      DocumentSnapshot userDoc = await _db.doc(getCurrentUserUID()).get();
+      if (userDoc.exists) {
+        return userDoc.get("ProfileImage");
+      }
+    } catch (e) {
+      print("Error fetching profile image path: $e");
+    }
+    return null;
+  }
 }
