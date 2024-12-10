@@ -12,25 +12,41 @@ class TrendsPage extends StatefulWidget {
 
 class _TrendsPageState extends State<TrendsPage> {
   final reader = csv_reader();
-  bool selectedValue = true; // Selected value for the radio button group
+  bool isLoading = false;
+  bool selectedValue = true;
   var searchBarPresenter = SearchBarPresenter.instance;
 
-  List<List<dynamic>> salaryByCountry = [];
+  List<List<dynamic>> trends = [];
+
   Future<void> getBestJobSalary() async {
-    print(searchBarPresenter.getLatestSearch());
-    if(searchBarPresenter.getLatestSearch().isEmpty){
-      salaryByCountry = await reader.findBestJobSalary(null, "Data Engineer", context);
-    } else {salaryByCountry = await reader.findBestJobSalary(null, searchBarPresenter.getLatestSearch(), context);}
+    setState(() {
+      isLoading = true;
+    });
+
+    String searchQuery = searchBarPresenter.getLatestSearch();
+    trends = await reader.findBestJobSalary(
+      null,
+      searchQuery.isEmpty ? "Data Engineer" : searchQuery,
+      context,
+    );
+
+    setState(() {
+      isLoading = false;
+      selectedValue = true;
+    });
   }
 
-  List<List<dynamic>> companySizePattern = [];
   Future<void> getCompanySizeSalaryPattern() async {
-    companySizePattern = await reader.findCompanySizeSalaryPattern(context);
-  }
+    setState(() {
+      isLoading = true;
+    });
 
-  @override
-  void initState() {
-    super.initState();
+    trends = await reader.findCompanySizeSalaryPattern(context);
+
+    setState(() {
+      isLoading = false;
+      selectedValue = false;
+    });
   }
 
   @override
@@ -43,30 +59,24 @@ class _TrendsPageState extends State<TrendsPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextButton(
-              onPressed: () async {
-                await getBestJobSalary();
-                setState(() {
-                  selectedValue = true;
-                });
-              },
+              onPressed: getBestJobSalary,
               style: TextButton.styleFrom(
-                backgroundColor: Theme.of(context).colorScheme.onPrimary,
+                backgroundColor: selectedValue
+                    ? Theme.of(context).colorScheme.onPrimary
+                    : null,
               ),
               child: const Text(
                 "Salary",
                 style: TextStyle(color: Colors.white),
               ),
             ),
-            const SizedBox(width: 10), // Add spacing between buttons
+            const SizedBox(width: 10),
             TextButton(
-              onPressed: () async {
-                await getCompanySizeSalaryPattern();
-                setState(() {
-                  selectedValue = false;
-                });
-              },
+              onPressed: getCompanySizeSalaryPattern,
               style: TextButton.styleFrom(
-                backgroundColor: Theme.of(context).colorScheme.onPrimary,
+                backgroundColor: !selectedValue
+                    ? Theme.of(context).colorScheme.onPrimary
+                    : null,
               ),
               child: const Text(
                 "Size",
@@ -76,51 +86,32 @@ class _TrendsPageState extends State<TrendsPage> {
           ],
         ),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Flexible(
-              child: FutureBuilder(
-                builder: (context, snapshot) {
-
-                  final trends = selectedValue == false
-                      ? salaryByCountry
-                      : companySizePattern;
-              return Row(
-                children:[
-                  Expanded(flex: 1, child: scrollableList(trends))
-                ]
-              );
-
-                  /*return ListView.builder(
-                    shrinkWrap: false,
-                    itemCount: selectedValue == false
-                        ? salaryByCountry.length
-                        : companySizePattern.length,
-                    itemBuilder: (context, index) {
-
-
-
-                        /*ListView.builder(
-                        shrinkWrap: false,
-                        itemCount: 3,
-                        itemBuilder: (BuildContext context, int index) {
-                          return TrendWidget(country: trends[index] as String, bestSalary: trends[index] as String);
-                        },
-                      );*/
-                    },
-                  );*/
-                },
-                future: getBestJobSalary(),
-              ),
-            ),
-          ],
+      body: isLoading
+          ? Center(child: CircularProgressIndicator())
+          : trends.isEmpty
+          ? Center(
+        child: Text(
+          'No data available for ${searchBarPresenter.getLatestSearch()}',
+          style: TextStyle(fontSize: 16),
+          textAlign: TextAlign.center,
         ),
+      )
+          : ListView.builder(
+        itemCount: trends.length,
+        itemBuilder: (context, index) {
+          final country = trends[index][0];
+          final maxSalary = trends[index][1];
+
+          return ListTile(
+            title: Text('Country: $country'),
+            subtitle: Text('Max Salary: \$${maxSalary.toString()}'),
+          );
+        },
       ),
     );
   }
 }
+
 
 class TrendWidget extends StatelessWidget {
   final String country;
@@ -143,7 +134,11 @@ Widget scrollableList(List<List<dynamic>>? data) {
   if (data == null) {
     return const Center(child: CircularProgressIndicator());
   }
-  // print(data);
+  print(data);
+
+
+
+
 
   return ListView.separated(
       itemCount: data.length,
@@ -170,3 +165,4 @@ Widget scrollableList(List<List<dynamic>>? data) {
         );
       });
 }
+
