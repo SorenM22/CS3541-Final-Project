@@ -80,15 +80,15 @@ class _TrendsPageState extends State<TrendsPage> {
                 builder: (context, snapshot) {
                   return ListView.builder(
                     itemCount: selectedValue == false
-                        ? salaryByCountry[0].length
-                        : companySizePattern[0].length,
+                        ? salaryByCountry.length
+                        : companySizePattern.length,
                     itemBuilder: (context, index) {
                       final trends = selectedValue == false
-                          ? salaryByCountry[0]
-                          : companySizePattern[0];
+                          ? salaryByCountry
+                          : companySizePattern;
                       return ListView.builder(
                         itemBuilder: (BuildContext context, int index) {
-                          return TrendWidget(country: trends[index], bestSalary: trends[index]);
+                          return TrendWidget(country: trends[index] as String, bestSalary: trends[index] as String);
                         },
                       );
                     },
