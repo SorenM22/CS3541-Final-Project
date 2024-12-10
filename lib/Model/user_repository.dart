@@ -40,17 +40,18 @@ class UserRepository extends GetxController{
 
 
   Future<String?> getCurrentProfileInitial() async{
-    String profileInitial = 'P';
+    String profileInitial = 'Profile';
 
     await _db.doc(getCurrentUserUID()).get().then((grabInitial){
-      profileInitial = grabInitial.get("Name")[0];
+      profileInitial = grabInitial.get("Name");
     });
 
     return profileInitial;
   }
 
+
   Stream<String> getProfileInitialStream() async* {
-    yield await getCurrentProfileInitial() ?? 'P';
+    yield await getCurrentProfileInitial() ?? 'Profile';
   }
 
   Future<String?> getProfileImagePath() async {
