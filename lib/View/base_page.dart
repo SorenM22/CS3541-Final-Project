@@ -166,6 +166,7 @@ class _BasePageState extends State<BasePage> {
                 );
               }
             ),
+            SizedBox(width: 16),
             MenuAnchor(
                 menuChildren: [
                   MenuItemButton(

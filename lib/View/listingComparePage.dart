@@ -49,23 +49,27 @@ class _ListingComparePageState extends State<ListingComparePage> {
           return Column(
             mainAxisSize: MainAxisSize.max,
             children: [
-              DecoratedBox(
+              Container(
+                width: 200.0,
                   decoration: BoxDecoration(
+                    shape: BoxShape.rectangle,
                     color: Theme.of(context).colorScheme.onPrimaryContainer,
                     border: Border.all(width: 1)
                   ),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text(row[0]),
-                      Text(row[2].toString()),
-                      Text(row[3].toString()),
-                      Text(row[5].toString()),
+                      Text(row[0],overflow: TextOverflow.ellipsis, softWrap: true,),
+                      Text(row[2].toString(),overflow: TextOverflow.ellipsis, softWrap: true,),
+                      Text(row[3].toString(),overflow: TextOverflow.ellipsis, softWrap: true,),
+                      Text(row[5].toString(),overflow: TextOverflow.ellipsis, softWrap: true,),
                     ],
                   )
               )
             ],
           );
-        });
+        }
+    );
   }
 
   @override
