@@ -171,7 +171,7 @@ class _CalendarState extends State<Calendar> {
                 ),
 
                 Spacer(
-                  flex: 100,
+                  flex: 1,
                 ),
                 Divider(
                   color: Theme.of(context).colorScheme.onPrimary,
