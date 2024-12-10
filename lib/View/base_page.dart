@@ -1,7 +1,10 @@
+import 'dart:typed_data';
+
 import 'package:final_ctrl_alt_defeat/Model/authentication_repository.dart';
 import 'package:final_ctrl_alt_defeat/Presenter/csv_reader.dart';
 import 'package:final_ctrl_alt_defeat/Presenter/search_bar_presenter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import '../Model/destination.dart';
 import 'package:audioplayers/audioplayers.dart';
@@ -18,6 +21,7 @@ class _BasePageState extends State<BasePage> {
   final auth = Get.put(AuthenticationRepository());
   final SearchBarPresenter searchBarPresenter = Get.put(SearchBarPresenter());
   final AudioPlayer _audioPlayer = AudioPlayer();
+  late Uint8List audioBytes;
   bool isPlaying = false;
   final reader = csv_reader();
 
@@ -34,30 +38,40 @@ class _BasePageState extends State<BasePage> {
     Get.toNamed(Destination.trends.route, id: 1);
   }
 
-  void toggleSound() {
-    setState(() {
-      if (isPlaying) {
-        // Pause the sound
-        pauseSound();
-      } else {
-        // Play the sound
-        playSound();
-      }
-      isPlaying = !isPlaying;
+
+  void initState() {
+    super.initState();
+
+
+    _audioPlayer.onPlayerStateChanged.listen((PlayerState state) {
+      setState(() {
+        isPlaying = state == PlayerState.playing;
+      });
     });
   }
 
-  void playSound() async {
-    await _audioPlayer.play(AssetSource('Assets/Aylex - Meditation.mp3')); // Play local file
+  Future<void> loadAudio(String assetPath) async {
+    ByteData bytes = await rootBundle.load(assetPath);
+    audioBytes = bytes.buffer.asUint8List(bytes.offsetInBytes, bytes.lengthInBytes);
   }
 
-  void pauseSound() async {
-    await _audioPlayer.pause(); // Pause sound
-  }
+  Future<void> playMusic(String assetPath) async {
+    await loadAudio(assetPath);
+    //await _audioPlayer.stop();
+    if (_audioPlayer.state == PlayerState.playing){
+      await  _audioPlayer.pause();
+      isPlaying = false;
+    }
+    else{
+      await  _audioPlayer.play(BytesSource(audioBytes));
+      isPlaying = true;
+    }
 
+  }
   @override
-  void initState() {
-    super.initState();
+  void dispose() {
+    _audioPlayer.dispose();
+    super.dispose();
   }
 
   @override
@@ -180,7 +194,7 @@ class _BasePageState extends State<BasePage> {
                   Icon(isPlaying ? Icons.pause : Icons.play_arrow),
                 ],
               ),
-              onTap: toggleSound,
+              onTap: (){playMusic('Assets/Aylex - Meditation.mp3');}
             )
           ],
         ),

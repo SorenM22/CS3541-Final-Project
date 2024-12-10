@@ -71,6 +71,7 @@ flutter:
   assets:
     - Assets/processed_Software_Engineer_Salary.csv
     - Assets/processed_jobs_in_Data.csv
+    - Assets/Aylex - Meditation.mp3
 
 
   # The following line ensures that the Material Icons font is
