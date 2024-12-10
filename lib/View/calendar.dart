@@ -9,6 +9,7 @@ import '../Presenter/interview_presenter.dart';
 
 import '../Presenter/calendar_presenter.dart';
 
+import '../Model/ThemeController.dart';
 
 
 
@@ -24,7 +25,6 @@ class _CalendarState extends State<Calendar> {
   DateTime? _selectedDay;
 
   InterviewManager man = InterviewManager();
-
 
   @override
   Widget build(BuildContext context) {
@@ -121,18 +121,37 @@ class _CalendarState extends State<Calendar> {
                                                 context: context,
                                                 initialTime: TimeOfDay.now(),
                                                   builder: (context, child) {
+
+                                                  ColorScheme scheme;
+                                                  if (Theme.of(context).colorScheme.onPrimary == Color(0xFF3E10C6)) {
+                                                    scheme = ColorScheme.light(
+                                                      primary: Theme.of(context).colorScheme.onSurface,
+                                                      //primaryContainer: Theme.of(context).colorScheme.onPrimaryContainer,
+                                                      onSurface: Theme.of(context).colorScheme.onSurface,
+                                                      secondary: Theme.of(context).colorScheme.onPrimaryContainer
+                                                    );
+                                                  } else {
+                                                    scheme = ColorScheme.dark(
+                                                      primary: Theme.of(context).colorScheme.onSurface,
+                                                      //primaryContainer: Theme.of(context).colorScheme.onPrimaryContainer,
+                                                      onSurface: Theme.of(context).colorScheme.onSurface,
+                                                      secondary: Theme.of(context).colorScheme.onPrimaryContainer
+                                                    );
+                                                  }
+
                                                     return Theme(
                                                       data: ThemeData.light().copyWith(
-                                                        colorScheme: ColorScheme.light(
-                                                          onSurface: Theme.of(context).colorScheme.onPrimary,
+                                                        //primaryColor: Theme.of(context).colorScheme.onPrimaryContainer,
+                                                        colorScheme: scheme,
+                                                        buttonTheme: ButtonThemeData(
+                                                          colorScheme: ColorScheme.light(
+                                                            //onSurface: Colors.green,//Theme.of(context).colorScheme.onPrimary,
+                                                          ),
                                                         ),
                                                       ),
                                                       child: child!,
                                                     );
                                                   }
-
-
-
                                               );
                                               man.newInterview(selectedDay, time, companyName);
                                               setState(() {});
