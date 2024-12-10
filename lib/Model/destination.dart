@@ -3,6 +3,7 @@ import 'package:final_ctrl_alt_defeat/View/SearchPage.dart';
 import 'package:final_ctrl_alt_defeat/View/calendar.dart';
 import 'package:final_ctrl_alt_defeat/View/listingComparePage.dart';
 import 'package:final_ctrl_alt_defeat/View/trendsSearchPage.dart';
+import 'package:final_ctrl_alt_defeat/View/trends_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
@@ -37,7 +38,7 @@ enum Destination {
       case Destination.compareListings:
         return const ListingComparePage();
       case Destination.compareTrends:
-        return const Text("Compare Trends");
+        return const TrendsPage();
       case Destination.searchTrends:
         return const TrendsSearchPage();
     }
