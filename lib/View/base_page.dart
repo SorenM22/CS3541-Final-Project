@@ -1,5 +1,4 @@
 import 'dart:typed_data';
-
 import 'package:final_ctrl_alt_defeat/Model/authentication_repository.dart';
 import 'package:final_ctrl_alt_defeat/Presenter/csv_reader.dart';
 import 'package:final_ctrl_alt_defeat/Presenter/search_bar_presenter.dart';
@@ -24,6 +23,7 @@ class _BasePageState extends State<BasePage> {
   late Uint8List audioBytes;
   bool isPlaying = false;
   final reader = csv_reader();
+  String selectedImagePath = 'Assets/bridgeTest2.jpg';
 
   void navToHome() => Get.toNamed(Destination.home.route, id: 1);
   void navToGoals() => Get.toNamed(Destination.goals.route, id: 1);
@@ -69,11 +69,72 @@ class _BasePageState extends State<BasePage> {
     }
 
   }
+  void showImagePickerDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Choose a Profile Picture'),
+          content: SingleChildScrollView(
+            child: Column(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      selectedImagePath = 'Assets/bridgeTest.jpg';
+                    });
+                    Navigator.of(context).pop();
+                  },
+                  child: Image.asset(
+                    'Assets/bridgeTest.jpg',
+                    width: 100,
+                    height: 100,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                SizedBox(height: 10),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      selectedImagePath = 'Assets/bridgeTest2.jpg';
+                    });
+                    Navigator.of(context).pop();
+                  },
+                  child: Image.asset(
+                    'Assets/bridgeTest2.jpg',
+                    width: 100,
+                    height: 100,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                SizedBox(height: 10),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      selectedImagePath = 'Assets/bridgeTest3.jpg';
+                    });
+                    Navigator.of(context).pop();
+                  },
+                  child: Image.asset(
+                    'Assets/bridgeTest3.jpg',
+                    width: 100,
+                    height: 100,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
   @override
   void dispose() {
     _audioPlayer.dispose();
     super.dispose();
   }
+  final String imagePath = r"C:\Users\ajcar\OneDrive\Pictures\bridgeTest.jpg";
 
   @override
   Widget build(BuildContext context) {
@@ -211,14 +272,17 @@ class _BasePageState extends State<BasePage> {
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.primary,
               ),
-              child: const Row(
+              child: Row(
                 children: [
-                  CircleAvatar(
-                    radius: 40,
-                    backgroundColor: Colors.black,
+                  GestureDetector(
+                    onTap: showImagePickerDialog, // Trigger dialog on tap
+                    child: CircleAvatar(
+                      radius: 40, // Adjust the radius as needed
+                      backgroundImage: AssetImage(selectedImagePath),
+                    ),
                   ),
-                  SizedBox(width: 16),
-                  Expanded(
+                  const SizedBox(width: 16),
+                  const Expanded(
                     child: Text(
                       "Username",
                       style: TextStyle(

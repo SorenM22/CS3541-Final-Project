@@ -52,6 +52,7 @@ dependencies:
   csv: ^6.0.0
   statistics:
   table_calendar: ^3.1.2
+  file_picker: ^8.1.4
 
 dev_dependencies:
   flutter_test:
@@ -73,6 +74,9 @@ flutter:
     - Assets/processed_Software_Engineer_Salary.csv
     - Assets/processed_jobs_in_Data.csv
     - Assets/Aylex - Meditation.mp3
+    - Assets/bridgeTest.jpg
+    - Assets/bridgeTest2.jpg
+    - Assets/bridgeTest3.jpg
 
 
   # The following line ensures that the Material Icons font is
