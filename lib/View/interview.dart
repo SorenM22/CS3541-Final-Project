@@ -13,9 +13,10 @@ class Interview extends StatelessWidget {
   Interview(this.time , company) {
     String month = time.month.toString();
     String day = time.day.toString();
-    String hour = (time.hour%12).toString();
-    String min = time.minute.toString();
-    interviewText = '$month/$day: Interview with $company at $hour:$min';
+    String hour = time.hour == 0 ? '12' : (time.hour%12).toString();
+    String min = time.minute == 0 ? '00' : time.minute.toString();
+    String meridian = time.hour < 12 ? 'am' : 'pm';
+    interviewText = '$month/$day: Interview with $company at $hour:$min $meridian';
    }
   
   @override
@@ -24,11 +25,24 @@ class Interview extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                color: Theme.of(context).colorScheme.onPrimaryContainer,
-                width: 350,
+                width: 400,
                 height: 50,
-                child: Center (
-                  child: Text(interviewText),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.onPrimaryContainer,
+                  border: Border.all(
+                    color: Theme.of(context).colorScheme.onPrimary,
+                    width: 3.0,
+                  ),
+                  borderRadius: BorderRadius.circular(5.0), // Uniform radius
+                ),
+                child: Center(
+                  child: Text(
+                      interviewText,
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold
+                      )
+                  ),
                 ),
               ),
               Container(
