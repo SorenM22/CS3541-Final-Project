@@ -191,8 +191,7 @@ class _BasePageState extends State<BasePage> {
                       style: TextButton.styleFrom(backgroundColor: Theme.of(context).colorScheme.onPrimary)
                   );
                 }
-            ),
-          ],
+            )]
         ),
       ),
       drawer: Drawer(

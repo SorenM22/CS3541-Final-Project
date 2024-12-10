@@ -56,7 +56,7 @@ class _TrendsSearchPageState extends State<TrendsSearchPage> {
                 ),
               );
             }
-            return const Text("Search by work setting",textAlign: TextAlign.center,);
+            return const CircularProgressIndicator();
           }
       ),
     );

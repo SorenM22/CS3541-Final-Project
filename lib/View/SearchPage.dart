@@ -1,11 +1,6 @@
-import 'dart:ffi';
-
-import 'package:final_ctrl_alt_defeat/Model/authentication_repository.dart';
-import 'package:final_ctrl_alt_defeat/Presenter/rows.dart';
 import 'package:final_ctrl_alt_defeat/Presenter/search_bar_presenter.dart';
 import 'package:flutter/material.dart';
 import 'package:final_ctrl_alt_defeat/Presenter/csv_reader.dart';
-import 'csv_read_test.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -67,7 +62,7 @@ class _SearchPageState extends State<SearchPage> {
                 ),
               );
             }
-            return const Text("Search By Job Title",textAlign: TextAlign.center,);
+            return const CircularProgressIndicator();
           }
       ),
     );
