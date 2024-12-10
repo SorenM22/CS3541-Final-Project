@@ -233,15 +233,24 @@ class _BasePageState extends State<BasePage> {
           children: [
             ListTile(
               title: Text("Home"),
-              onTap: navToHome,
+              onTap: () {
+                navToHome();
+                Navigator.of(context).pop(); // Close the drawer
+              },
             ),
             ListTile(
               title: Text("Goals"),
-              onTap: navToGoals,
+              onTap: () {
+                Navigator.of(context).pop(); // Close the drawer
+                navToGoals();
+              },
             ),
             ListTile(
               title: Text("Calendar"),
-              onTap: navToCalendar,
+              onTap: () {
+                Navigator.of(context).pop(); // Close the drawer
+                navToCalendar();
+              },
             ),
             ListTile(
               title: Row(
@@ -290,13 +299,19 @@ class _BasePageState extends State<BasePage> {
             ListTile(
               leading: const Icon(Icons.settings),
               title: const Text("Settings"),
-              onTap: navToSettings
+              onTap: () {
+                Navigator.of(context).pop(); // Close the drawer
+                navToSettings();
+              },
             ),
             const Spacer(),
             ListTile(
               leading: const Icon(Icons.logout),
               title: const Text("Sign Out"),
-              onTap: auth.signout, // Keeps the logout functionality
+              onTap: () {
+                Navigator.of(context).pop(); // Close the drawer
+                auth.signout(); // Keeps the logout functionality
+              },
             ),
           ],
         ),
