@@ -140,7 +140,8 @@ class signupInputFields extends StatelessWidget {
                   ),
                 ),
               ),
-
+              const Text("\n\nEmails must not be any@any.X\nPasswords must be more than 6 characters long",
+              style: TextStyle(fontSize: 15,),),
             ],
           ),
         )

@@ -53,6 +53,8 @@ dependencies:
   statistics:
   table_calendar: ^3.1.2
   file_picker: ^8.1.4
+  flutter_local_notifications: ^18.0.1
+
 
 dev_dependencies:
   flutter_test:

@@ -11,6 +11,13 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import '../View/GoalPage.dart';
 import '../View/calendar.dart';
+import 'package:final_ctrl_alt_defeat/View/SettingsPages/about_settings.dart';
+import 'package:final_ctrl_alt_defeat/View/SettingsPages/account_setting.dart';
+import 'package:final_ctrl_alt_defeat/View/SettingsPages/appearance_settings.dart';
+import 'package:final_ctrl_alt_defeat/View/SettingsPages/notification_settings.dart';
+import 'package:final_ctrl_alt_defeat/View/SettingsPages/privacy_security_settings.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+
 
 enum Destination {
   home,
@@ -20,6 +27,11 @@ enum Destination {
   compareListings,
   searchTrends,
   settings,
+  account,
+  notification,
+  privacyAndSecurity,
+  appearance,
+  about,
   compareTrends;
 
   String get route {
@@ -44,6 +56,16 @@ enum Destination {
         return const TrendsSearchPage();
       case Destination.settings:
         return const SettingsPage();
+      case Destination.account:
+        return AccountPage();
+      case Destination.notification:
+        return NotificationPage();
+      case Destination.privacyAndSecurity:
+        return PrivacySecurityPage();
+      case Destination.appearance:
+        return AppearancePage();
+      case Destination.about:
+        return AboutPage();
     }
   }
 

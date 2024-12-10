@@ -29,7 +29,7 @@ class LoginPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Text("MyFit", style: TextStyle(fontSize: 35),),
+                const Text("interView\n", style: TextStyle(fontSize: 35),),
                 const Text("please login", style: TextStyle(fontSize: 15),),
 
                 Form(
