@@ -8,6 +8,9 @@ import 'package:get/get.dart';
 import '../Model/destination.dart';
 import 'package:audioplayers/audioplayers.dart';
 
+import '../Model/image_model.dart';
+import '../Presenter/image_presenter.dart';
+
 
 class BasePage extends StatefulWidget {
   const BasePage({super.key});
@@ -17,13 +20,14 @@ class BasePage extends StatefulWidget {
 }
 
 class _BasePageState extends State<BasePage> {
+  late ImagePickerPresenter presenter;
+  String selectedImagePath = 'Assets/bridgeTest2.jpg';
   final auth = Get.put(AuthenticationRepository());
   final SearchBarPresenter searchBarPresenter = Get.put(SearchBarPresenter());
   final AudioPlayer _audioPlayer = AudioPlayer();
   late Uint8List audioBytes;
   bool isPlaying = false;
   final reader = csv_reader();
-  String selectedImagePath = 'Assets/bridgeTest2.jpg';
 
   void navToHome() => Get.toNamed(Destination.home.route, id: 1);
   void navToGoals() => Get.toNamed(Destination.goals.route, id: 1);
@@ -42,7 +46,8 @@ class _BasePageState extends State<BasePage> {
 
   void initState() {
     super.initState();
-
+    presenter = ImagePickerPresenter(ImageModel());
+    presenter.selectedImagePathNotifier.addListener(updateSelectedImage);
 
     _audioPlayer.onPlayerStateChanged.listen((PlayerState state) {
       setState(() {
@@ -69,6 +74,11 @@ class _BasePageState extends State<BasePage> {
     }
 
   }
+  void updateSelectedImage() {
+    setState(() {
+      selectedImagePath = presenter.selectedImagePathNotifier.value;
+    });
+  }
   void showImagePickerDialog() {
     showDialog(
       context: context,
@@ -77,52 +87,9 @@ class _BasePageState extends State<BasePage> {
           title: Text('Choose a Profile Picture'),
           content: SingleChildScrollView(
             child: Column(
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      selectedImagePath = 'Assets/bridgeTest.jpg';
-                    });
-                    Navigator.of(context).pop();
-                  },
-                  child: Image.asset(
-                    'Assets/bridgeTest.jpg',
-                    width: 100,
-                    height: 100,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                SizedBox(height: 10),
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      selectedImagePath = 'Assets/bridgeTest2.jpg';
-                    });
-                    Navigator.of(context).pop();
-                  },
-                  child: Image.asset(
-                    'Assets/bridgeTest2.jpg',
-                    width: 100,
-                    height: 100,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                SizedBox(height: 10),
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      selectedImagePath = 'Assets/bridgeTest3.jpg';
-                    });
-                    Navigator.of(context).pop();
-                  },
-                  child: Image.asset(
-                    'Assets/bridgeTest3.jpg',
-                    width: 100,
-                    height: 100,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ],
+              children: presenter.getImageOptions(context, () {
+                Navigator.of(context).pop();
+              }),
             ),
           ),
         );
@@ -132,6 +99,7 @@ class _BasePageState extends State<BasePage> {
   @override
   void dispose() {
     _audioPlayer.dispose();
+    presenter.selectedImagePathNotifier.removeListener(updateSelectedImage);
     super.dispose();
   }
   final String imagePath = r"C:\Users\ajcar\OneDrive\Pictures\bridgeTest.jpg";
