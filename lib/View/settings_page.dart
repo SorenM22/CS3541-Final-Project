@@ -31,7 +31,8 @@ class SettingsPage extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const PlaceholderPage(title: 'Account Settings'),
+                  builder: (context) =>
+                      const PlaceholderPage(title: 'Account Settings'),
                 ),
               );
             },
@@ -45,7 +46,8 @@ class SettingsPage extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const PlaceholderPage(title: 'Notification Settings'),
+                  builder: (context) =>
+                      const PlaceholderPage(title: 'Notification Settings'),
                 ),
               );
             },
@@ -59,7 +61,8 @@ class SettingsPage extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const PlaceholderPage(title: 'Privacy & Security'),
+                  builder: (context) =>
+                      const PlaceholderPage(title: 'Privacy & Security'),
                 ),
               );
             },
@@ -73,7 +76,8 @@ class SettingsPage extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const PlaceholderPage(title: 'Appearance Settings'),
+                  builder: (context) =>
+                      const PlaceholderPage(title: 'Appearance Settings'),
                 ),
               );
             },
@@ -87,8 +91,16 @@ class SettingsPage extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const PlaceholderPage(title: 'About'),
-                ),
+                  builder: (context) => const Center(
+                    child: Text(
+                        textAlign: TextAlign.left,
+                        ' Author of:\n\n'
+                        'Software Engineer Jobs & Salaries 2024\n\u2022 Emre Öksüz\n\n'
+                        'Jobs and Salaries in Data Science\n\u2022 Hummaam Qaasim',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    ),
+                  ),
               );
             },
           ),
