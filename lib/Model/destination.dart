@@ -3,6 +3,7 @@ import 'package:final_ctrl_alt_defeat/View/SearchPage.dart';
 import 'package:final_ctrl_alt_defeat/View/calendar.dart';
 import 'package:final_ctrl_alt_defeat/View/csv_read_test.dart';
 import 'package:final_ctrl_alt_defeat/View/listingComparePage.dart';
+import 'package:final_ctrl_alt_defeat/View/settings_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
@@ -14,6 +15,7 @@ enum Destination {
   calendar,
   searchListings,
   compareListings,
+  settings,
   trends;
 
   String get route {
@@ -34,6 +36,8 @@ enum Destination {
         return const ListingComparePage();
       case Destination.trends:
         return const Text("Trends");
+      case Destination.settings:
+        return const SettingsPage();
     }
   }
 
