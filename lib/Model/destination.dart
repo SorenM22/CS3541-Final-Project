@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import '../View/GoalPage.dart';
+import '../View/calendar.dart';
 
 enum Destination {
   home,
@@ -26,7 +27,9 @@ enum Destination {
       case Destination.goals:
         return GoalPage();
       case Destination.calendar:
-        return const Text("Calendar Page");
+        return Center(
+          child: Calendar()
+        );
       case Destination.searchListings:
         return const SearchPage();
       case Destination.compareListings:

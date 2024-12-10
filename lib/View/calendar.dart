@@ -154,22 +154,11 @@ class _CalendarState extends State<Calendar> {
                     _focusedDay = focusedDay;
                   },
                 ),
-
-
-
-
-
-
-
                 ListView.builder(
                     shrinkWrap: true,
                     itemCount: man.getLength(),
                     itemBuilder: (context, index) => man.interviewList[index]
                 ),
-
-
-
-
               ]
           )
       )
