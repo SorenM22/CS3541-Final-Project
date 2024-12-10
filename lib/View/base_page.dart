@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final_ctrl_alt_defeat/Model/authentication_repository.dart';
 import 'package:final_ctrl_alt_defeat/Presenter/csv_reader.dart';
 import 'package:final_ctrl_alt_defeat/Presenter/search_bar_presenter.dart';
@@ -7,8 +8,10 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import '../Model/destination.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:final_ctrl_alt_defeat/Presenter/profile_avatar_icon_presenter.dart';
 
 import '../Model/image_model.dart';
+import '../Model/user_repository.dart';
 import '../Presenter/image_presenter.dart';
 
 
@@ -20,6 +23,9 @@ class BasePage extends StatefulWidget {
 }
 
 class _BasePageState extends State<BasePage> {
+  final user = Get.put(UserRepository());
+  final db = FirebaseFirestore.instance.collection("User_Data");
+
   late ImagePickerPresenter presenter;
   String selectedImagePath = 'Assets/bridgeTest2.jpg';
   final auth = Get.put(AuthenticationRepository());
@@ -28,6 +34,7 @@ class _BasePageState extends State<BasePage> {
   late Uint8List audioBytes;
   bool isPlaying = false;
   final reader = csv_reader();
+  final profileController = Get.find<ProfileController>();
 
   void navToHome() => Get.toNamed(Destination.home.route, id: 1);
   void navToGoals() => Get.toNamed(Destination.goals.route, id: 1);
@@ -118,7 +125,7 @@ class _BasePageState extends State<BasePage> {
             return IconButton(
               onPressed: Scaffold.of(context).openDrawer,
               icon: const Icon(Icons.menu),
-              color: Colors.white,
+              color: Theme.of(context).colorScheme.primary,
             );
           }),
           actions: <Widget>[
@@ -159,7 +166,7 @@ class _BasePageState extends State<BasePage> {
               return IconButton(
                 onPressed: Scaffold.of(context).openEndDrawer,
                 icon: const Icon(Icons.person),
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.primary,
               );
             }),
           ]
@@ -276,19 +283,19 @@ class _BasePageState extends State<BasePage> {
               child: Row(
                 children: [
                   GestureDetector(
-                    onTap: showImagePickerDialog, // Trigger dialog on tap
+                    onTap: showImagePickerDialog,
                     child: CircleAvatar(
-                      radius: 40, // Adjust the radius as needed
+                      radius: 40,
                       backgroundImage: AssetImage(selectedImagePath),
                     ),
                   ),
                   const SizedBox(width: 16),
-                  const Expanded(
+                  Expanded(
                     child: Text(
-                      "Username",
+                      profileController.profileInitial.value,
                       style: TextStyle(
                         fontSize: 20,
-                        color: Colors.black,
+                        color: Theme.of(context).colorScheme.onPrimary,
                         fontWeight: FontWeight.bold,
                       ),
                     ),

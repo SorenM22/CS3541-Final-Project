@@ -1,17 +1,7 @@
 import 'package:flutter/material.dart';
-import 'dart:typed_data';
-import 'package:final_ctrl_alt_defeat/Model/authentication_repository.dart';
-import 'package:final_ctrl_alt_defeat/Presenter/csv_reader.dart';
-import 'package:final_ctrl_alt_defeat/Presenter/search_bar_presenter.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import '../Model/destination.dart';
-import 'package:audioplayers/audioplayers.dart';
-
-import '../Model/image_model.dart';
-import '../Presenter/image_presenter.dart';
-
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
   void navToNotification() => Get.toNamed(Destination.notification.route, id: 1);

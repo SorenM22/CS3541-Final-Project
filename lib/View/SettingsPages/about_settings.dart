@@ -22,6 +22,16 @@ class AboutPage extends StatelessWidget {
                 color: Theme.of(context).colorScheme.onPrimary,
               ),
             ),
+            Text(
+              textAlign: TextAlign.left,
+              '\nAuthor of:\n\n'
+                  'Software Engineer Jobs & Salaries 2024\n\u2022 Emre Öksüz\n\n'
+                  'Jobs and Salaries in Data Science\n\u2022 Hummaam Qaasim',
+              style: TextStyle(
+                  fontSize: 18,
+                  color: Theme.of(context).colorScheme.onPrimary
+              ),
+            )
           ],
         ),
       ),
