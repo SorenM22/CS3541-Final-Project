@@ -24,7 +24,7 @@ class Interview extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                color: Colors.grey,
+                color: Theme.of(context).colorScheme.onPrimaryContainer,
                 width: 350,
                 height: 50,
                 child: Center (
