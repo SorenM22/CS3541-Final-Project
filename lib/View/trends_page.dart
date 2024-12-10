@@ -99,18 +99,41 @@ class _TrendsPageState extends State<TrendsPage> {
           : ListView.builder(
         itemCount: trends.length,
         itemBuilder: (context, index) {
-          final country = trends[index][0];
-          final maxSalary = trends[index][1];
+          if (selectedValue) {
 
-          return ListTile(
-            title: Text('Country: $country'),
-            subtitle: Text('Max Salary: \$${maxSalary.toString()}'),
-          );
+            final country = trends[index][0];
+            final maxSalary = trends[index][1];
+
+            return ListTile(
+              title: Text('Country: $country'),
+              subtitle: Text('Max Salary: \$${maxSalary.toString()}'),
+            );
+          } else {
+
+            final companySize = trends[index][0];
+            final maxSalary = trends[index][1];
+            final minSalary = trends[index][2];
+            final medianSalary = trends[index][3];
+            final meanSalary = trends[index][4];
+            final standardDeviationSalary = trends[index][5];
+
+            return ListTile(
+              title: Text('Company Size: $companySize'),
+              subtitle: Text(
+                'Max Salary: \$${maxSalary.toString()}\n'
+                    'Min Salary: \$${minSalary.toString()}\n'
+                    'Median Salary: \$${medianSalary.toString()}\n'
+                    'Mean Salary: \$${meanSalary.toString()}\n'
+                    'Standard Deviation: \$${standardDeviationSalary.toString()}',
+              ),
+            );
+          }
         },
       ),
     );
   }
 }
+
 
 
 class TrendWidget extends StatelessWidget {
